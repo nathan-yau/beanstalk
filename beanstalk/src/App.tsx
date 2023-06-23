@@ -6,6 +6,17 @@ import './App.css'
 function App() {
   const [count, setCount] = useState(0)
 
+  const newTimerId = () => {
+    fetch('/api/sample', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ search: "123" })
+    }).then((res) => res.json()).then((data) => console.log(data))};
+
+  newTimerId(); 
+
   return (
     <>
       <div>
