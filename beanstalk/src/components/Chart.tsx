@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
+import { Container } from './Chart.styles';
 
 interface ChartComponentProps {
     chartData: ChartData[];
@@ -30,10 +31,6 @@ const ChartComponent: React.FC<ChartComponentProps> = ({chartData, meta}) => {
                     download: false}
             }
           },
-          title: {
-            text: `${meta['symbol']} - ${meta['instrumentType']} (${meta['exchangeName']})`,
-            align: 'left'
-          },
           xaxis: {
             type: 'datetime',
             labels: {
@@ -48,9 +45,9 @@ const ChartComponent: React.FC<ChartComponentProps> = ({chartData, meta}) => {
       }]
   
     return (
-      <div>
+      <Container className='mt-5'>
         <ReactApexChart options={options} series={series} type="candlestick" height={350} />
-      </div>
+      </Container>
     );
   };
   

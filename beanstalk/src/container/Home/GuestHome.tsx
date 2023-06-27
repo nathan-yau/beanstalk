@@ -1,5 +1,6 @@
 import { Title } from './Home.styles';
 import { useState } from 'react';
+import './home.css'
 import ChartComponent from '../../components/Chart';
 
 function GuestHome() {
@@ -42,18 +43,36 @@ function GuestHome() {
         setTimerId(newTimerId);
     };
 
+    function expand(event: any) {
+        const card = event.currentTarget;
+        card.classList.toggle('profile--expanded');
+
+        if (!card.classList.contains('profile--expanded')) card.classList.toggle('profile--unexpanded');
+        else if (card.classList.contains('profile--expanded') && card.classList.contains('profile--unexpanded')) card.classList.toggle('profile--unexpanded');
+    }
+
     return (
         <>
         <Title>Beanstalk</Title>
         <div>
             <input className="flex-grow-1 px-3 border-0 search-bar" type="text" placeholder="SEARCH FOR A FINANCIAL INSTRUMENT"
-                        aria-label="Search" value={searchInput} onChange={handleSearchInputChange}></input>
-            {data ? 
-            <>
-            <ChartComponent chartData={data['chartData']} meta={data['stockMeta']}></ChartComponent>
-            </>:
-            <h1 className="head_text">No Result</h1>
-            }
+                        aria-label="Search" value={searchInput} onChange={handleSearchInputChange}></input>       
+        { data && 
+            <div className="profile" onClick={(event) => expand(event)}>
+                <div className="profile__info">
+                    <span className="profile__info-display">{data['stockMeta']['symbol']} </span>
+                    <span className="profile__info-username">{data['stockMeta']['instrumentType']} ({data['stockMeta']['exchangeName']})</span>
+                </div>
+                {/* <div>
+                    <div className="profile__pic">
+                        <img src="https://i.imgur.com/mQvmS3c.jpg?1" alt="Profile picture of Cho Miyeon" />
+                    </div>
+                </div> */}
+                <div className="profile__data">
+                    <ChartComponent chartData={data['chartData']} meta={data['stockMeta']}></ChartComponent>
+                </div>
+            </div>
+        }
         </div>
         </>
     );
