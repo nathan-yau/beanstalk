@@ -38,7 +38,40 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to the Beanstalk Investment App!" });
 });
 
-app.post("/api/stockQuery", async (req, res) => {
+app.post("/api/overview", async (req, res) => {
+    result = await fetchData(`https://query2.finance.yahoo.com/v8/finance/chart/${req.body.symbol}`)
+    try{
+        overview = {}
+        stockMeta = ['symbol', 'currency', 'exchangeName', 'instrumentType', 'previousClose']
+        for (var i = 0; i < stockMeta.length; i++) {
+            overview[stockMeta[i]] = result.data.chart.result[0].meta[stockMeta[i]]
+        }
+        
+        priceHint = result.data.chart.result[0].meta.priceHint
+        high = result.data.chart.result[0].indicators.quote[0].high.filter(function (value) {return value != null;});
+        low = result.data.chart.result[0].indicators.quote[0].low.filter(function (value) {return value != null;});
+        close = result.data.chart.result[0].indicators.quote[0].close.filter(function (value) {return value != null;});
+        volume = result.data.chart.result[0].indicators.quote[0].volume.reduce((partialSum, a) => partialSum + a, 0)
+        console.log(volume)
+        timestamp = result.data.chart.result[0].timestamp
+        exchangeTimezoneName = result.data.chart.result[0].meta.exchangeTimezoneName
+
+        overview['currentPrice'] = Number(Number(close[close.length - 1]).toFixed(priceHint))
+        overview['currentHigh'] = Number(Number(Math.max(...high)).toFixed(priceHint))
+        overview['currentLow'] = Number(Number(Math.min(...low)).toFixed(priceHint))
+        overview['Volume'] = Number(volume).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        overview['lastUpdate'] = convertTimeStamp(timestamp[timestamp.length - 1], exchangeTimezoneName)
+
+        res.json(overview);
+
+    } catch (error) {
+        console.log(error)
+        res.json({ "error": "true", "message": "Invalid Symbol"});
+    }
+});
+
+
+app.post("/api/chart", async (req, res) => {
     result = await fetchData('stock', req.body.symbol)
     try{
         stockMeta = {}

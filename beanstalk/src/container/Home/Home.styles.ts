@@ -25,7 +25,7 @@ export const GuestCard = styled.div`
     height: 50px;
     background-color: #fff;
     padding: 10px;
-    border-radius: 0.25em;
+    border-radius: 0.50em;
     border: 1px solid #ccc;
 }`
 
