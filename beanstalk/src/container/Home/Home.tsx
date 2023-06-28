@@ -1,10 +1,12 @@
 import React from 'react';
 import Guest from './GuestHome';
-
+import {HomeContainer} from './Home.styles';
 const Home: React.FC = () => {
 
   return (
-    <Guest></Guest>
+    <HomeContainer>
+      <Guest></Guest>
+    </HomeContainer>
   );
 };
 
