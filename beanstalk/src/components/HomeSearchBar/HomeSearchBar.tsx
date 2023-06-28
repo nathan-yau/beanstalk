@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { SearchArea, SearchBar, SearchLabel } from './HomeSearchBar.styles';
-import { set } from 'mongoose';
+import OverviewFetching from '../../utils/OverviewFetching';
 
 function HomeSearchBar( { setData, setSearchLoading }: { setData: any, setSearchLoading: any } ) {
 
@@ -22,22 +22,7 @@ function HomeSearchBar( { setData, setSearchLoading }: { setData: any, setSearch
     
             // Set a new timer to fetch the data after 500ms
             const newTimerId = setTimeout(() => {
-                fetch('/api/overview', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ symbol: inputValue })
-                }).then((res) => res.json()).then((data) => {
-                    console.log(data)
-                    if ('symbol' in data) {
-                        setData(data);
-                        setSearchLoading(false);
-                    } else {
-                        setData(null);
-                        setSearchLoading(false);
-                    }
-                });
+                OverviewFetching(inputValue, '', setData, setSearchLoading);
             }, 1000);
     
             // Store the timer id so we can clear it if the user is still typing

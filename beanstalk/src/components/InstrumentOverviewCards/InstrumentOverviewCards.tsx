@@ -1,5 +1,6 @@
-import {InstrumentOverviewPlaceholder, InstrumentOverviewPlaceholderText, InstrumentOverviewPlaceholderTitle, Overviewheading, OverviewFooter, OverviewText, OverviewSubtext} from './InstrumentOverviewCards.styles'
-
+import {InstrumentOverviewContainer,  OverviewHeadingText, InstrumentOverviewPlaceholder, OverviewFooterStat, OverviewPrecentage, InstrumentOverviewPlaceholderText, InstrumentOverviewPlaceholderTitle, OverviewFooter, OverviewText, OverviewSubtext, OverviewHeading} from './InstrumentOverviewCards.styles'
+import {RefreshButton, RefreshText} from '../InstrumentOverviewCards/InstrumentOverviewCards.styles'
+import OverviewFetching from '../../utils/OverviewFetching';
 
 interface Data {
     symbol: string;
@@ -7,6 +8,8 @@ interface Data {
     exchangeName: string;
     instrumentType: string;
     previousClose: number;
+    priceChange: number;
+    priceChangePercent: number;
     currentPrice: number;
     currentHigh: number;
     currentLow: number;
@@ -14,18 +17,32 @@ interface Data {
     lastUpdate: string;
 }
 
-function OverviewHolder({data}: {data: Data}) {
+function OverviewHolder({ data, setData, setSearchLoading }: { data: Data, setData: Function, setSearchLoading: Function }) {
+    var instrumentType = ""
+    {data['instrumentType'] === "FUTURES" ? instrumentType = "FUTURES" : instrumentType = "STOCK"};
     return (
         <>
-        <InstrumentOverviewPlaceholder>
-            <Overviewheading>
-                {data['symbol']} - {data['instrumentType']} ({data['exchangeName']})
-            </Overviewheading>
-            <OverviewText>{data['currentPrice']}</OverviewText>
+        <InstrumentOverviewContainer changes={data['priceChange']}>
+            <OverviewHeading>
+            <OverviewHeadingText>
+                {data['symbol']} - {data['instrumentType']} {data['exchangeName']? `(${data['exchangeName']})`: null}
+            </OverviewHeadingText>
+            <RefreshButton onClick={() => OverviewFetching(data['symbol'], instrumentType, setData, setSearchLoading)}>
+                <img src="icons\refresh-card.svg" alt="refresh" width="15px"/>
+            </RefreshButton>
+            </OverviewHeading>
+            <OverviewText changes={data['priceChange']} currency={data['currency']}>
+                {data['currentPrice']} 
+                <OverviewPrecentage changes={data['priceChange']}>{data['priceChangePercent']}%</OverviewPrecentage>
+            </OverviewText>
             <OverviewFooter>
-                <OverviewSubtext>High: {data['currentHigh']}</OverviewSubtext> <OverviewSubtext>Low: {data['currentLow']}</OverviewSubtext>
+                <OverviewFooterStat>
+                    <OverviewSubtext>High: {data['currentHigh']}</OverviewSubtext> 
+                    <OverviewSubtext>Low: {data['currentLow']}</OverviewSubtext>
+                </OverviewFooterStat>
+                <OverviewSubtext>Last Updated: {data['lastUpdate']}</OverviewSubtext>
             </OverviewFooter>
-        </InstrumentOverviewPlaceholder>
+        </InstrumentOverviewContainer>
         </>
     );
 }

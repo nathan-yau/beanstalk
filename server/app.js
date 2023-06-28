@@ -5,6 +5,8 @@ const MongoStore = require("connect-mongo");
 const dotenv = require("dotenv");
 const fetchData = require('./functions/fetchData');
 const convertTimeStamp = require('./functions/convertTimeStamp');
+const stockOverview = require('./functions/stockOverview');
+const futuresOverview = require('./functions/futuresOverview');
 dotenv.config();
 
 app.set('views', process.env.VIEW_PATH);
@@ -38,35 +40,41 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to the Beanstalk Investment App!" });
 });
 
+
+app
+
+
 app.post("/api/overview", async (req, res) => {
-    result = await fetchData(`https://query2.finance.yahoo.com/v8/finance/chart/${req.body.symbol}`)
-    try{
-        overview = {}
-        stockMeta = ['symbol', 'currency', 'exchangeName', 'instrumentType', 'previousClose']
-        for (var i = 0; i < stockMeta.length; i++) {
-            overview[stockMeta[i]] = result.data.chart.result[0].meta[stockMeta[i]]
+    console.log(req.body)
+    if (req.body.instrumentType === 'STOCK') {
+        result = await fetchData(`${process.env.STOCK_API_LINK}${req.body.symbol}`)
+        try {
+            overview = stockOverview(result.data.chart.result[0])
+            // console.log(overview)
+            res.json(overview);
+        } catch (error) {
+            console.log(error)
+            res.json({ "error": "true", "message": "Invalid Symbol"});
         }
-        
-        priceHint = result.data.chart.result[0].meta.priceHint
-        high = result.data.chart.result[0].indicators.quote[0].high.filter(function (value) {return value != null;});
-        low = result.data.chart.result[0].indicators.quote[0].low.filter(function (value) {return value != null;});
-        close = result.data.chart.result[0].indicators.quote[0].close.filter(function (value) {return value != null;});
-        volume = result.data.chart.result[0].indicators.quote[0].volume.reduce((partialSum, a) => partialSum + a, 0)
-        console.log(volume)
-        timestamp = result.data.chart.result[0].timestamp
-        exchangeTimezoneName = result.data.chart.result[0].meta.exchangeTimezoneName
-
-        overview['currentPrice'] = Number(Number(close[close.length - 1]).toFixed(priceHint))
-        overview['currentHigh'] = Number(Number(Math.max(...high)).toFixed(priceHint))
-        overview['currentLow'] = Number(Number(Math.min(...low)).toFixed(priceHint))
-        overview['Volume'] = Number(volume).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        overview['lastUpdate'] = convertTimeStamp(timestamp[timestamp.length - 1], exchangeTimezoneName)
-
-        res.json(overview);
-
-    } catch (error) {
-        console.log(error)
-        res.json({ "error": "true", "message": "Invalid Symbol"});
+    } else if (req.body.instrumentType === 'CRYPTOCURRENCY') {
+        result = await fetchData(`${process.env.STOCK_API_LINK}${req.body.symbol}`)
+        try {
+            overview = stockOverview(result.data.chart.result[0])
+            console.log(overview)
+            res.json(overview);
+        } catch (error) {
+            res.json({ "error": "true", "message": "Invalid Symbol"});
+        }
+    } else if (req.body.instrumentType === 'FUTURES') {
+        result = await fetchData(`${process.env.FUTURES_API_LINK}${req.body.symbol}&second=60`)
+        try {
+            overview = futuresOverview(result, req.body.symbol)
+            console.log(overview)
+            res.json(overview);
+        } catch (error) {
+            console.log(error)
+            res.json({ "error": "true", "message": "Invalid Symbol"});
+        }
     }
 });
 
@@ -98,7 +106,7 @@ app.post("/api/chart", async (req, res) => {
             Number(Number(close[index]).toFixed(priceHint))]
             )
         for (var i = 0; i < timestamp.length; i++) {
-            timestamp[i] = convertTimeStamp(timestamp[i], exchangeTimezoneName)
+            timestamp[i] = convertTimeStamp(timestamp[i])
         }
         for (var i = 0; i < timestamp.length; i++) {
             if (!(priceData[i].includes(0))) {
