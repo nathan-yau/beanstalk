@@ -8,12 +8,25 @@ const stockOverview = (result) => {
     }
     
     priceHint = result.meta.priceHint
-    currentOpen = result.indicators.quote[0].open.filter(function (value) {return value != null;});
-    high = result.indicators.quote[0].high.filter(function (value) {return value != null;});
-    low = result.indicators.quote[0].low.filter(function (value) {return value != null;});
-    currentClose = result.indicators.quote[0].close.filter(function (value) {return value != null;});
+    currentOpen = result.indicators.quote[0].open;
+    high = result.indicators.quote[0].high;
+    low = result.indicators.quote[0].low;
+    currentClose = result.indicators.quote[0].close;
     volume = result.indicators.quote[0].volume.reduce((partialSum, a) => partialSum + a, 0)
     timestamp = result.timestamp
+    const priceData = timestamp.map((time, index) => [
+        Number(Number(currentOpen[index]).toFixed(priceHint)), 
+        Number(Number(high[index]).toFixed(priceHint)), 
+        Number(Number(low[index]).toFixed(priceHint)), 
+        Number(Number(currentClose[index]).toFixed(priceHint))]
+        )
+
+    currentClose = currentClose.filter(function (value) {return value != null;})
+    high = high.filter(function (value) {return value != null;})
+    low = low.filter(function (value) {return value != null;})
+    currentOpen = currentOpen.filter(function (value) {return value != null;})
+    
+    
     exchangeTimezoneName = result.meta.exchangeTimezoneName
 
     overview['currentPrice'] = Number(currentClose[currentClose.length - 1]).toFixed(priceHint)
@@ -30,23 +43,16 @@ const stockOverview = (result) => {
         overview[moneyformatting[i]] = overview[moneyformatting[i]].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     }
 
-    const priceData = timestamp.map((time, index) => [
-        Number(Number(currentOpen[index]).toFixed(priceHint)), 
-        Number(Number(high[index]).toFixed(priceHint)), 
-        Number(Number(low[index]).toFixed(priceHint)), 
-        Number(Number(currentClose[index]).toFixed(priceHint))]
-        )
-        
-    for (var i = 0; i < timestamp.length; i++) {
-        timestamp[i] = convertTimeStamp(timestamp[i])
-    }
-
+    
+    
     chartData = []
     for (var i = 0; i < timestamp.length; i++) {
-        if (!(priceData[i].includes(0))) {
+        if (!(priceData[i].includes(0) || priceData[i].includes(null)) ) {
+            timestamp[i] = convertTimeStamp(timestamp[i])
             chartData.push({"x": timestamp[i], "y": priceData[i]})
         }
     }
+
     overview['chartData'] = chartData
 
     return overview

@@ -50,7 +50,7 @@ app.post("/api/overview", async (req, res) => {
         result = await fetchData(`${process.env.STOCK_API_LINK}${req.body.symbol}`)
         try {
             overview = stockOverview(result.data.chart.result[0])
-            console.log(overview)
+            // console.log(overview)
             res.json(overview);
         } catch (error) {
             console.log(error)
@@ -73,47 +73,6 @@ app.post("/api/overview", async (req, res) => {
             console.log(error)
             res.json({ "error": "true", "message": "Invalid Symbol"});
         }
-    }
-});
-
-
-app.post("/api/chart", async (req, res) => {
-    result = await fetchData('stock', req.body.symbol)
-    try{
-        stockMeta = {}
-        stockMeta['symbol'] = result.data.chart.result[0].meta.symbol
-        stockMeta['currency'] = result.data.chart.result[0].meta.currency
-        stockMeta['exchangeName'] = result.data.chart.result[0].meta.exchangeName
-        stockMeta['instrumentType'] = result.data.chart.result[0].meta.instrumentType
-        stockMeta['previousClose'] = result.data.chart.result[0].meta.previousClose
-
-        chartData = []
-        high = result.data.chart.result[0].indicators.quote[0].high
-        low = result.data.chart.result[0].indicators.quote[0].low
-        close = result.data.chart.result[0].indicators.quote[0].close
-        open = result.data.chart.result[0].indicators.quote[0].open
-        volume = result.data.chart.result[0].indicators.quote[0].volume
-        stockMeta['min_y_axis'] = Math.min(...low)
-        timestamp = result.data.chart.result[0].timestamp
-        exchangeTimezoneName = result.data.chart.result[0].meta.exchangeTimezoneName
-        priceHint = result.data.chart.result[0].meta.priceHint
-        const priceData = timestamp.map((time, index) => [
-            Number(Number(open[index]).toFixed(priceHint)), 
-            Number(Number(high[index]).toFixed(priceHint)), 
-            Number(Number(low[index]).toFixed(priceHint)), 
-            Number(Number(close[index]).toFixed(priceHint))]
-            )
-        for (var i = 0; i < timestamp.length; i++) {
-            timestamp[i] = convertTimeStamp(timestamp[i])
-        }
-        for (var i = 0; i < timestamp.length; i++) {
-            if (!(priceData[i].includes(0))) {
-                chartData.push({"x": timestamp[i], "y": priceData[i]})
-            }
-        }
-        res.json({ stockMeta, chartData });
-    } catch (error) {
-        res.json({ "error": "true", "message": "Invalid Symbol"});
     }
 });
 

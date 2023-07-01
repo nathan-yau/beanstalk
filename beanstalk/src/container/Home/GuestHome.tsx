@@ -6,7 +6,6 @@ import OverviewPlaceholder, {OverviewHolder} from '../../components/InstrumentOv
 import ChartPlaceholder from '../../components/InstrumentChartCards/InstrumentChartCards';
 import { GuestCard, GuestCardText,  SignInLink,  Subheading } from './Home.styles'
 import OverviewFetching from '../../utils/OverviewFetching';
-import ChartComponent from '../../components/Charts/Chart';
 
 function GuestHome() {
 
@@ -40,17 +39,14 @@ function GuestHome() {
     const toggleExpansion = (isExpanded: boolean, setExpanded: Function) => {
 
         if (isExpanded) {
-            console.log("here")
             setExpanded(false);
         } else {
-            console.log("there")
             setExpanded(true);
         }
 
         const currentMarginBottom = parseInt(document.body.style.marginBottom, 10) || 0;
         if (isExpanded) {
             const updatedMarginBottom = currentMarginBottom - 35;
-            console.log(updatedMarginBottom)
             document.body.style.marginBottom = `${updatedMarginBottom}vh`;
         } else {
             const updatedMarginBottom = currentMarginBottom + 35;
@@ -70,7 +66,7 @@ function GuestHome() {
         {searchData || searchLoading ? <Subheading>Top Match</Subheading>: null}
         {searchLoading? <OverviewPlaceholder></OverviewPlaceholder>: null}
         {searchData && !searchLoading? <a onClick={() => toggleExpansion(searchExpanded, setSearchExpanded)}><OverviewHolder data={searchData} setData={setData} setSearchLoading={setSearchLoading}></OverviewHolder></a>: null}
-        {searchData && !searchLoading? <ChartPlaceholder isExpanded={searchExpanded} chartData={searchData["chartData"]}></ChartPlaceholder>: null}
+        {searchData && !searchLoading? <ChartPlaceholder isExpanded={searchExpanded} chartData={searchData['chartData']}></ChartPlaceholder>: null}
 
         <Subheading>Most Active Instruments</Subheading>
         {mostActiveInsyruments.map((instrument, _) => {
@@ -78,7 +74,7 @@ function GuestHome() {
                 <>
                 {instrument[0]? <OverviewPlaceholder></OverviewPlaceholder>: null}
                 {instrument[2] && !instrument[0]? <a onClick={() => toggleExpansion(instrument[4], instrument[5])}><OverviewHolder data={instrument[2]} setData={instrument[3]} setSearchLoading={instrument[1]}></OverviewHolder></a>: null}
-                {instrument[2]? <ChartPlaceholder isExpanded={instrument[4]} chartData={instrument[2]["chartData"]}></ChartPlaceholder>: null }
+                {instrument[2]? <ChartPlaceholder isExpanded={instrument[4]} chartData={instrument[2]['chartData']} ></ChartPlaceholder>: null }
                 </>
             )
         })}

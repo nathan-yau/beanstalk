@@ -1,11 +1,39 @@
 import { InstrumentChartPlaceholder,  InstrumentChartPlaceholderText} from './InstrumentChartCards.styles'
 import { useRef, useEffect, useState } from 'react';
-import ChartComponent from '../../components/Charts/Chart';
+import ReactApexChart from 'react-apexcharts';
+import { ApexOptions } from 'apexcharts';
+import './InstrumentChartCards.css'
 
-function ChartPlaceholder({ isExpanded, chartData }: { isExpanded: boolean, chartData: any }) {
+interface ChartData {
+    x: Date;
+    y: number[];
+  }
+
+function ChartPlaceholder({ isExpanded, chartData }: { isExpanded: boolean, chartData: ChartData[] }) {
     const chartRef = useRef<HTMLDivElement>(null);
     
     const [showDiv, setShowDiv] = useState(false);
+
+    const options: ApexOptions = {
+        chart: {
+            toolbar: {
+                show: false,
+                tools: {
+                    download: false}
+            }
+          },
+          xaxis: {
+            type: 'datetime',
+            labels: {
+                datetimeUTC: false,
+                format: 'HH:mm',
+            }
+          }
+    };
+  
+    const series = [{
+        data: chartData
+      }]
 
     useEffect(() => {
         setTimeout(() => {
@@ -21,11 +49,9 @@ function ChartPlaceholder({ isExpanded, chartData }: { isExpanded: boolean, char
           padding: isExpanded ? '10px 10px 10px 10px': '10px 10px 15px 10px',
           borderRadius: isExpanded ? '0 0 10px 10px': '0 0 0 2em'
         }}>
-            {isExpanded && chartData? <ChartComponent chartData={chartData}></ChartComponent>: <InstrumentChartPlaceholderText isExpanded={isExpanded} style={{ opacity: showDiv ? 1 : 0 }}></InstrumentChartPlaceholderText>}
+            {isExpanded && chartData? <ReactApexChart options={options} series={series} type="candlestick" className="chart-homepage" style={{ opacity: showDiv ? 1 : 0 }}/>: <InstrumentChartPlaceholderText isExpanded={isExpanded} style={{ opacity: showDiv ? 1 : 0 }}></InstrumentChartPlaceholderText>}
         </InstrumentChartPlaceholder>
         </>
     ); 
 }
 export default ChartPlaceholder;
-
-export {ChartPlaceholder};

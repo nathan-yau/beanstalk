@@ -4,7 +4,7 @@ const convertTimeStamp = (timestamp, exchangeTimezoneName = null) => {
     if (exchangeTimezoneName) {
         options.timeZone = exchangeTimezoneName;
     }
-    const formattedDateTime = date.toLocaleString(undefined, options);
+    const formattedDateTime = date.toLocaleString(undefined, options).replace(', 24:', ', 00:');
     return formattedDateTime;
 }
 
