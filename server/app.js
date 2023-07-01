@@ -45,12 +45,12 @@ app
 
 
 app.post("/api/overview", async (req, res) => {
-    console.log(req.body)
+
     if (req.body.instrumentType === 'STOCK') {
         result = await fetchData(`${process.env.STOCK_API_LINK}${req.body.symbol}`)
         try {
             overview = stockOverview(result.data.chart.result[0])
-            // console.log(overview)
+            console.log(overview)
             res.json(overview);
         } catch (error) {
             console.log(error)
@@ -60,7 +60,6 @@ app.post("/api/overview", async (req, res) => {
         result = await fetchData(`${process.env.STOCK_API_LINK}${req.body.symbol}`)
         try {
             overview = stockOverview(result.data.chart.result[0])
-            console.log(overview)
             res.json(overview);
         } catch (error) {
             res.json({ "error": "true", "message": "Invalid Symbol"});
@@ -69,7 +68,6 @@ app.post("/api/overview", async (req, res) => {
         result = await fetchData(`${process.env.FUTURES_API_LINK}${req.body.symbol}&second=60`)
         try {
             overview = futuresOverview(result, req.body.symbol)
-            console.log(overview)
             res.json(overview);
         } catch (error) {
             console.log(error)

@@ -1,28 +1,20 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
-import { Container } from './Chart.styles';
+import './Chart.css';
 
 interface ChartComponentProps {
     chartData: ChartData[];
-    meta: MetaData;
   }
 
 interface ChartData {
     x: Date;
     y: number[];
   }
-  
-  interface MetaData {
-    symbol: string;
-    instrumentType: string;
-    exchangeName: string;
-    currency: string;
-    
-  }
 
 
-const ChartComponent: React.FC<ChartComponentProps> = ({chartData, meta}) => {
+const ChartComponent: React.FC<ChartComponentProps> = ({chartData}) => {
+    const [showDiv, setShowDiv] = React.useState(false);
     const options: ApexOptions = {
         chart: {
             toolbar: {
@@ -43,11 +35,17 @@ const ChartComponent: React.FC<ChartComponentProps> = ({chartData, meta}) => {
     const series = [{
         data: chartData
       }]
+
+
   
+    React.useEffect(() => {
+      setTimeout(() => {
+        setShowDiv(true);
+      }, 500);
+    }, []);
+
     return (
-      <Container className='mt-5'>
-        <ReactApexChart options={options} series={series} type="candlestick" height={350} />
-      </Container>
+        <ReactApexChart options={options} series={series} type="candlestick" className="chart-homepage" style={{ opacity: showDiv ? 1 : 0 }}/>
     );
   };
   

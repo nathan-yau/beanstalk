@@ -21,8 +21,7 @@ function TopNav() {
     }
 
     const navrbarPosition = ScrollingEvents();
-    console.log(navrbarPosition)
-
+    
     return (
         <Nav pageScrolled={navrbarPosition}>
             <Title>Beanstalk</Title>

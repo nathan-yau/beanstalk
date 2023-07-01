@@ -12,8 +12,9 @@ export const InstrumentOverviewPlaceholder = styled.div`
     background-color: #fff;
     padding: 10px;
     border-radius: 0.50em;
-    margin-top: 10px;
+    margin: 10px auto 0 auto;
     border: 1px solid #ccc;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
 }`
 
 export const InstrumentOverviewPlaceholderText = styled.div`
@@ -43,12 +44,14 @@ export const InstrumentOverviewContainer = styled.div<{ changes: number }>`
     'background: rgb(255,255,255);background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(198,255,221, 1) 100%)' :
     props.changes == 0?
     'background: rgb(255,255,255);background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.5) 100%)':
-    'background: rgb(255,255,255);background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(247,28,28, 0.4) 100%)'};
+    'background: rgb(255,255,255);background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(247,91, 91, 1) 100%)'};
     padding: 10px;
     border-radius: 0.50em;
     margin-top: 10px;
+    margin: 10px auto 0 auto;
     border: 1px solid #ccc;
-    
+    position: relative;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
 }`
 
 export const OverviewHeading = styled.div`
@@ -107,7 +110,8 @@ export const RefreshButton = styled.div`
     display: flex;
     position: absolute;
     gap: 0.25rem;
-    right: 30px;
+    right: 0;
+    transform: translate(-50%, 0%);
     background-color: rgba(255, 255, 255, 0.7);
     border: 1px solid #ccc;
     border-radius: 5em;

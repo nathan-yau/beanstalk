@@ -8,6 +8,7 @@ const stockOverview = (result) => {
     }
     
     priceHint = result.meta.priceHint
+    currentOpen = result.indicators.quote[0].open.filter(function (value) {return value != null;});
     high = result.indicators.quote[0].high.filter(function (value) {return value != null;});
     low = result.indicators.quote[0].low.filter(function (value) {return value != null;});
     currentClose = result.indicators.quote[0].close.filter(function (value) {return value != null;});
@@ -23,6 +24,31 @@ const stockOverview = (result) => {
     overview['volume'] = Number(volume).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     overview['lastUpdate'] = convertTimeStamp(timestamp[timestamp.length - 1]).replace(",", "")
     overview['timezone'] = exchangeTimezoneName
+
+    moneyformatting = ['currentPrice', 'currentHigh', 'currentLow', 'priceChange']
+    for (var i = 0; i < moneyformatting.length; i++) {
+        overview[moneyformatting[i]] = overview[moneyformatting[i]].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }
+
+    const priceData = timestamp.map((time, index) => [
+        Number(Number(currentOpen[index]).toFixed(priceHint)), 
+        Number(Number(high[index]).toFixed(priceHint)), 
+        Number(Number(low[index]).toFixed(priceHint)), 
+        Number(Number(currentClose[index]).toFixed(priceHint))]
+        )
+        
+    for (var i = 0; i < timestamp.length; i++) {
+        timestamp[i] = convertTimeStamp(timestamp[i])
+    }
+
+    chartData = []
+    for (var i = 0; i < timestamp.length; i++) {
+        if (!(priceData[i].includes(0))) {
+            chartData.push({"x": timestamp[i], "y": priceData[i]})
+        }
+    }
+    overview['chartData'] = chartData
+
     return overview
 }
 

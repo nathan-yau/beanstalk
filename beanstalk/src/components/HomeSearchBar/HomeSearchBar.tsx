@@ -23,6 +23,7 @@ function HomeSearchBar( { setData, setSearchLoading }: { setData: any, setSearch
             // Set a new timer to fetch the data after 500ms
             const newTimerId = setTimeout(() => {
                 OverviewFetching(inputValue, '', setData, setSearchLoading);
+                
             }, 1000);
     
             // Store the timer id so we can clear it if the user is still typing
