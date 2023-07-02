@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Title, Nav, SignUp, SignUpButton } from './TopNav.styles';
 
-function TopNav() {
+function TopNav({authorized}: {authorized: boolean}) {
     function ScrollingEvents() {
         const [scrolled, setScrolled] = useState(false);
     
@@ -25,9 +25,10 @@ function TopNav() {
     return (
         <Nav pageScrolled={navrbarPosition}>
             <Title>Beanstalk</Title>
+            {authorized? null:
             <SignUp>
                 <SignUpButton href="/register">Sign Up</SignUpButton>
-            </SignUp>
+            </SignUp>}
         </Nav>
     )
 }

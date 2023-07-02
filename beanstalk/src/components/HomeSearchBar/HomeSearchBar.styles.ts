@@ -5,6 +5,7 @@ export const SearchArea = styled.input`
   padding: 0.5rem 1rem;
   border-radius: 0.25em;
   border: 1px solid #ccc;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
 `
 
 export const SearchBar = styled.div`

@@ -1,33 +1,29 @@
 import './bottomNav.css'
 
-function BottomNav() {
+function BottomNav({authorized}: {authorized: boolean}) {
+    const guestUser = [['Search', 'icons/search-nav.svg', "/search"],['Login','icons/login-nav.svg', "/signin"],['Register','icons/register-nav.svg', "/register"]]
+    const authUser = [['Search','icons/search-nav.svg', "/search"],['Dashboard','icons/dashboard-nav.svg',"/dashboard"],['Simulation','icons/simulation-nav.svg',"/trading"],['Profile','icons/profile-nav.svg',"/profile"]]
+
     return (
         <nav className="bottom-nav" data-nav="">
             <ul className="bav-list">
-                <li className="bav-item">
-                    <a href="#" className="bav-btn">
-                        <img className="bav-item-icon" src="icons/search-nav.svg" width="30px"/>
-                        <span className="bav-item-text">Search</span>
+            {authorized? authUser.map((element, _) => {
+                return (
+                <li className="bav-item" key={element[0]}>
+                    <a href={element[2]} className="bav-btn">
+                        <img className="bav-item-icon" src={element[1]} width="30px"/>
+                        <span className="bav-item-text">{element[0]}</span>
                     </a>
                 </li>
-                <li className="bav-item">
-                    <a href="#" className="bav-btn">
-                        <img className="bav-item-icon" src="icons/dashboard-nav.svg" width="30px"/>
-                        <span className="bav-item-text">Dashboard</span>
+            )}):guestUser.map((element, _) => {
+                return (
+                <li className="bav-item" key={element[0]}>
+                    <a href={element[2]} className="bav-btn">
+                        <img className="bav-item-icon" src={element[1]} width="30px"/>
+                        <span className="bav-item-text">{element[0]}</span>
                     </a>
                 </li>
-                <li className="bav-item">
-                    <a href="#" className="bav-btn">
-                        <img className="bav-item-icon" src="icons/simulation-nav.svg" width="30px"/>
-                        <span className="bav-item-text">Simulation</span>
-                    </a>
-                </li>
-                <li className="bav-item">
-                    <a href="#" className="bav-btn">
-                        <img className="bav-item-icon" src="icons/profile-nav.svg" width="30px"/>
-                        <span className="bav-item-text">Profile</span>
-                    </a>
-                </li>
+            )})}
             </ul>
 	    </nav>
     )

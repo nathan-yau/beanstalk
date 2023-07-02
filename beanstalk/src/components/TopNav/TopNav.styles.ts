@@ -59,5 +59,6 @@ export const SignUpButton = styled.a`
   padding-bottom: 5px;
   &:hover {
     color: #fff;
+    
     }
     `;
