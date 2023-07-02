@@ -16,11 +16,11 @@ interface emailProps {
 }
 
 
-const EmailField: React.FC = () => {
+const EmailField = ({acceptableEmail, setAcceptableEmail} : {acceptableEmail: any, setAcceptableEmail: any}) => {
     
     const [activeTooltipEmail, setactiveTooltipEmail] = useState(false);
     const [validatingEmail, setValidatingEmail] = useState(false);
-    const [acceptableEmail, setAcceptableEmail] = useState(false);
+    // const [acceptableEmail, setAcceptableEmail] = useState(false);
     const [errorMessageEmail, setErrorMessageEmail] = useState(null);
     
     // const usernameRef = useRef(null);

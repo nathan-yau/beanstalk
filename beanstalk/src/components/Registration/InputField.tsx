@@ -42,8 +42,8 @@ const InputField = ({renderData} : {renderData: any}) => {
               ))}
           </Tooltip>
         </TooltipSection>
-        <InputSection>
-            <Input onChange={(event) => validateRegistration(event, ValidationProp)}></Input>
+        <InputSection isError={renderData.errorMessage} isAcceptable={renderData.acceptable}>
+            <Input onChange={(event) => validateRegistration(event, ValidationProp)} name={renderData.inputlabel} type={ renderData.inputlabel === "password" || renderData.inputlabel === "Confirm Password" ? `password` : `text`}></Input>
             {renderData.validating && <img src="/icons/loading-validation.svg" alt="" width={25} height={25} className='validated'></img>}
             {renderData.acceptable && !renderData.validating ? <img src={`/icons/success-validation.svg`} alt="" width={25} height={25} className='validated'></img> : null}
         </InputSection>

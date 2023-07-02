@@ -39,6 +39,9 @@ app.use(overviews);
 const validations = require("./routes/authentications/validation");
 app.use(validations);
 
+const registrations = require("./routes/authentications/registration");
+app.use(registrations);
+
 // const registration = require("./routes/authentications/registration");
 // app.use(registration);
 

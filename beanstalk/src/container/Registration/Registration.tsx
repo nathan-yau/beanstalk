@@ -2,20 +2,53 @@ import UsernameField from "../../components/Registration/UsernameField";
 import EmailField from "../../components/Registration/EmailField";
 import PasswordField from "../../components/Registration/PasswordField";
 import ConfirmPasswordField from "../../components/Registration/ConfirmPasswordField";
-import { PageConatiner, RegistrationContainer, RegistrationHeading, RegistrationButton, SignUpError } from "./Registration.styles";
+import { PageConatiner, RegistrationContainer, RegistrationHeading, RegistrationButton, SignUpError, Seperator, SeperatorText } from "./Registration.styles";
+import {GuestCardText, SignInLink} from "../Home/Home.styles";
+import { useState } from 'react';
+import internalRegistration from "../../utils/Registration"
 
-const Registration: React.FC = () => {
 
+
+const Registration = ({authorized}: {authorized: boolean}) => {
+    const [acceptableEmail, setAcceptableEmail] = useState(false);
+    const [acceptableUsername, setAcceptableUsername] = useState(false);
+    const [acceptablePassword, setAcceptablePassword] = useState(false);
+    const [acceptableConfirmPassword, setAcceptableConfirmPassword] = useState(false);
+    const [internalRegister, setInternalRegister] = useState(false);
+    const [registerLoading, setRegisterLoading] = useState(false);
+    const [registerErrorMessage, setRegisterErrorMessage] = useState("");
+    
+    const handleInternalRegister = () => {
+        setInternalRegister(true);
+    }
+
+    const acceptableInput = acceptableEmail && acceptableUsername && acceptablePassword && acceptableConfirmPassword;
+    if (authorized) {
+        window.location.href = "/";
+        return null;
+    }
     return (
         <PageConatiner>
             <RegistrationContainer>
                 <RegistrationHeading></RegistrationHeading>
-                <UsernameField></UsernameField>
-                <EmailField></EmailField>
-                <PasswordField></PasswordField>
-                <ConfirmPasswordField></ConfirmPasswordField>
-                <SignUpError></SignUpError>
-                <RegistrationButton>Register</RegistrationButton>
+                <EmailField acceptableEmail={acceptableEmail} setAcceptableEmail={setAcceptableEmail}></EmailField>
+                {internalRegister ?
+                <>
+                <UsernameField acceptableUsername={acceptableUsername} setAcceptableUsername={setAcceptableUsername}></UsernameField>
+                <PasswordField acceptablePassword={acceptablePassword} setAcceptablePassword={setAcceptablePassword} setAcceptableConfirmPassword={setAcceptableConfirmPassword}></PasswordField>
+                <ConfirmPasswordField acceptableConfirmPassword={acceptableConfirmPassword} setAcceptableConfirmPassword={setAcceptableConfirmPassword}></ConfirmPasswordField>
+                <SignUpError>{registerErrorMessage}</SignUpError>
+                <RegistrationButton enabled={acceptableInput} disabled={!acceptableInput} onClick={() => internalRegistration(setRegisterErrorMessage)}>Register</RegistrationButton>
+                </> :
+                <>
+                <RegistrationButton enabled={acceptableEmail} disabled={!acceptableEmail} onClick={handleInternalRegister}>Continue</RegistrationButton>
+                <GuestCardText style={{margin: 0, fontSize: '0.80rem',textAlign: 'center'}}>Already have an account? <SignInLink href="/signin" style={{marginLeft: `5px`}}>Sign in</SignInLink></GuestCardText>
+                <Seperator>
+                    <SeperatorText></SeperatorText>
+                </Seperator>
+                <RegistrationButton enabled={acceptableInput} style={{backgroundColor: "#DB4437"}}>Continue with Google</RegistrationButton>
+                </>
+                }
             </RegistrationContainer>
         </PageConatiner>
     );

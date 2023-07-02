@@ -16,11 +16,10 @@ interface passwordProps {
 }
 
 
-const PasswordField: React.FC = () => {
+const PasswordField = ({acceptablePassword, setAcceptablePassword, setAcceptableConfirmPassword} : {acceptablePassword: any, setAcceptablePassword: any, setAcceptableConfirmPassword:any}) => {
     
     const [activeTooltipPassword, setactiveTooltipPassword] = useState(false);
     const [validatingPassword, setValidatingPassword] = useState(false);
-    const [acceptablePassword, setAcceptablePassword] = useState(false);
     const [errorMessagePassword, setErrorMessagePassword] = useState(null);
     
     // const usernameRef = useRef(null);
@@ -42,7 +41,11 @@ const PasswordField: React.FC = () => {
         setErrorMessage: setErrorMessagePassword,
     }
 
-
+    const confirmPasswordInput  = document.querySelector('input[name="Confirm Password"]') as HTMLInputElement;
+    if (confirmPasswordInput && confirmPasswordInput.value === "") {
+        setAcceptableConfirmPassword(false)
+    }
+    
     return (
         <InputField renderData={passwordProps}></InputField>
     );

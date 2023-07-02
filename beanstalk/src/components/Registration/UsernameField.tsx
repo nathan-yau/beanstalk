@@ -16,11 +16,10 @@ interface UsernameProps {
 }
 
 
-const UsernameField: React.FC = () => {
+const UsernameField = ({acceptableUsername, setAcceptableUsername} : {acceptableUsername: any, setAcceptableUsername: any}) => {
     
     const [activeTooltipUsername, setactiveTooltipUsername] = useState(false);
     const [validatingUsername, setValidatingUsername] = useState(false);
-    const [acceptableUsername, setAcceptableUsername] = useState(false);
     const [errorMessageUsername, setErrorMessageUsername] = useState(null);
     
     // const usernameRef = useRef(null);

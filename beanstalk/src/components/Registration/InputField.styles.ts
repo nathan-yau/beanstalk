@@ -1,4 +1,4 @@
-import styled, {keyframes} from 'styled-components';
+import styled, {css, keyframes} from 'styled-components';
 
 
 export const ErrorMessage = styled.span`
@@ -9,6 +9,7 @@ export const ErrorMessage = styled.span`
 
 export const InputLabelSection = styled.div`
     display: flex;
+    margin: 0.50rem 0;
 `;
 
 export const InputLabel = styled.span`
@@ -62,15 +63,23 @@ const running = keyframes`
     0% {
         transform: translateX(0);
     }
-    50% {
-        transform: translateX(5px);
+    25% {
+        transform: translateX(10px);
+    }
+    75% {
+        transform: translateX(-10px);
     }
     100% {
         transform: translateX(0);
     }
 `
 
-export const InputSection = styled.div`
+
+const animation = (props: any) => css`
+    0.3s ease-in-out 0s normal none 1 ${props.isError ? running: ''};
+  `
+
+export const InputSection = styled.div<{isError: boolean, isAcceptable: boolean}>`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -80,11 +89,10 @@ export const InputSection = styled.div`
     padding-right: 0.5rem;
     margin-bottom: 0.50rem;
     &:focus-within {
-        border: 1px solid #0561ee;
+        border: 1px solid ${props => props.isError ? '#ff0000' : props.isAcceptable ? '#00ff00' : '#0561ee'};
         transition: all 0.5s ease-in-out;
-        animation: 0.3s ease-in-out 0s normal none 1 ${running};
+        animation: ${animation};
     }
-    
 `;
 
 

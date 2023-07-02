@@ -28,8 +28,8 @@ export const RegistrationHeading = styled.h3`
         }
 `
 
-export const RegistrationButton = styled.button`
-    background-color: #cfcfcf;
+export const RegistrationButton = styled.button<{enabled : boolean}>`
+    background-color: ${props => props.enabled ? "#4CAF50" : "#AFAFAF"};
     border: none;
     color: white;
     font-weight: 600;
@@ -38,14 +38,36 @@ export const RegistrationButton = styled.button`
     text-decoration: none;
     display: inline-block;
     font-size: 1rem;
-    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+    margin: 0.5rem 0rem 0.5rem 0rem;
     border-radius: 0.5rem;
     cursor: pointer;
-    :hover{
-        background-color: #3e8e41;
-    }
+    transition: all 0.5s ease 0s;
 `
 
 export const SignUpError = styled.span`
     color: #ff0000;
+    text-align: center;
+`;
+
+export const Seperator = styled.div`
+    display: flex;
+    align-items: center;
+    pading: 4px 0;
+    &:before, &:after {
+        content: " ";
+        background: #AFAFAF;
+        height: 1px;
+        display: block;
+        flex-grow: 1;
+    }
+`;
+
+export const SeperatorText = styled.span`
+    padding: 0 0.5rem 0 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #AFAFAF;
+    &:before {
+        content: "or";
+    }
 `;

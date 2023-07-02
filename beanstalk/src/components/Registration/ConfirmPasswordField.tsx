@@ -16,11 +16,10 @@ interface confirmPasswordProps {
 }
 
 
-const ConfirmPasswordField: React.FC = () => {
+const ConfirmPasswordField = ({acceptableConfirmPassword, setAcceptableConfirmPassword} : {acceptableConfirmPassword: any, setAcceptableConfirmPassword: any}) => {
     
     const [activeTooltipConfirmPassword, setactiveTooltipConfirmPassword] = useState(false);
     const [validatingConfirmPassword, setValidatingConfirmPassword] = useState(false);
-    const [acceptableConfirmPassword, setAcceptableConfirmPassword] = useState(false);
     const [errorMessageConfirmPassword, setErrorMessageConfirmPassword] = useState(null);
     
     // const usernameRef = useRef(null);
