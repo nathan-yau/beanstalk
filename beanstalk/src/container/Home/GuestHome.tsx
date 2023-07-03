@@ -35,7 +35,8 @@ function GuestHome() {
         OverviewFetching("BTC-USD", 'CRYPTOCURRENCY', setActiveCrypto, setCryptoLoading)
     }, [])
 
-      
+
+
     const toggleExpansion = (isExpanded: boolean, setExpanded: Function) => {
 
         if (isExpanded) {

@@ -5,9 +5,12 @@ const validationSchema = require("../../schema/validationSchema");
 
 router.get("/api/checkSession", async (req, res) => {
     if (req.session.authenticated) {
-        res.json({ status: "success", message: "Session is valid" });
+        return res.json({ success: true, data: { category: "authorized-session", message: "User is authorized"} })
+    } else if (req.session.guest) {
+        return res.json({ success: true, data: { category: "guest-session", message: "User is a guest"} })
     } else {
-        res.json({ status: "failed", message: "Session is invalid" });
+        req.session.guest = true;
+        return res.json({ success: true, data: { category: "guest-session", message: "Guest session created"} })
     }
 });
 

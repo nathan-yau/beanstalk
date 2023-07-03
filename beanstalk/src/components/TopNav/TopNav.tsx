@@ -24,8 +24,8 @@ function TopNav({authorized}: {authorized: boolean}) {
     
     return (
         <Nav pageScrolled={navrbarPosition}>
-            <Title>Beanstalk</Title>
-            {authorized? null:
+            <Title href="/">Beanstalk</Title>
+            {authorized ? null:
             <SignUp>
                 <SignUpButton href="/register">Sign Up</SignUpButton>
             </SignUp>}

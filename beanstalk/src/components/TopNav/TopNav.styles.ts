@@ -1,11 +1,11 @@
 import styled, { keyframes } from 'styled-components';
 
-const gradientAnimation = keyframes`
+export const gradientAnimation = keyframes`
     0%, 100% {background-position: 0% center; }
     50% {background-position: 100% center;}
 `;
 
-export const Title = styled.h1`
+export const Title = styled.a`
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans";;
   font-size: 2rem;
   font-weight: 800;
@@ -17,6 +17,7 @@ export const Title = styled.h1`
   background-clip: text;
   color: transparent;
   margin: 0;
+  display: flex;
   }
 `;
 

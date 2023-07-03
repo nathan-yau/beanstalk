@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const accountModule = require("../models/accountModel");
-const validationSchema = require("../schema/validationSchema");
+const accountModule = require("../../models/accountModel");
+const validationSchema = require("../../schema/validationSchema");
 const bcrypt = require("bcryptjs");
 
 router.post("/api/login", async (req, res) => {
@@ -11,15 +11,16 @@ router.post("/api/login", async (req, res) => {
 
     if (user && bcrypt.compareSync(req.body.password, user.password)) {
         req.session.authenticated = true;
+        req.session.guest = false;
         req.session.username = user.username;
         req.session.email = user.email;
-        res.json({ status: "success", message: "Login successfully" });
+        return res.json({ success: true, data: { category: "login", message: "Login successful"} })
     } else if (!user){
-        res.json({ status: "failed", message: "Username does not exist" });
+        return res.json({ success: false, data: { category: "login", message: "Username does not exist"} })
     } else if (!bcrypt.compareSync(req.body.password, user.password)){
-        res.json({ status: "failed", message: "Password is incorrect" });
+        return res.json({ success: false, data: { category: "login", message: "Password is incorrect"} })
     } else {
-        res.json({ status: "failed", message: "Login failed" });
+        return res.json({ success: false, data: { category: "login", message: "Error logging in"} })
     }
 });
 

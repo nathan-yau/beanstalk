@@ -7,7 +7,7 @@ export const PageConatiner = styled.div`
     justify-content: center;
 `
 
-export const RegistrationContainer = styled.div`
+export const LoginContainer = styled.div`
     display: flex;
     width: max(50%, 300px)!important;
     background-color: rgba(255, 255, 255, 0.5);
@@ -19,16 +19,16 @@ export const RegistrationContainer = styled.div`
     padding: 1rem;
 `;
 
-export const RegistrationHeading = styled.h3`
+export const LoginHeading = styled.h3`
     font-size: 1.5rem;
     font-weight: 600;
     text-align: center;
     :before{
-        content: "Register";
+        content: "Sign in";
         }
 `
 
-export const RegistrationButton = styled.button<{enabled : boolean}>`
+export const LoginButton = styled.button<{enabled : boolean}>`
     background-color: ${props => props.enabled ? "#4CAF50" : "#AFAFAF"};
     border: none;
     color: white;
@@ -42,33 +42,4 @@ export const RegistrationButton = styled.button<{enabled : boolean}>`
     border-radius: 0.5rem;
     cursor: pointer;
     transition: all 0.5s ease 0s;
-    width: 100%;
 `
-
-export const SignUpError = styled.span`
-    color: #ff0000;
-    text-align: center;
-`;
-
-export const Seperator = styled.div`
-    display: flex;
-    align-items: center;
-    pading: 4px 0;
-    &:before, &:after {
-        content: " ";
-        background: #AFAFAF;
-        height: 1px;
-        display: block;
-        flex-grow: 1;
-    }
-`;
-
-export const SeperatorText = styled.span`
-    padding: 0 0.5rem 0 0.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #AFAFAF;
-    &:before {
-        content: "or";
-    }
-`;

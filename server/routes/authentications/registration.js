@@ -49,6 +49,7 @@ router.post("/api/register", async (req, res) => {
     newUser.save().then(() => {
         console.log("New user created");
         req.session.authenticated = true;
+        req.session.guest = false;
         req.session.username = req.body.username;
         req.session.email = req.body.email;
         return res.json({ success: true, data: { category: "registration", message: "New user created"} })

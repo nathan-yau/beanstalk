@@ -3,6 +3,7 @@ const app = express();
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const dotenv = require("dotenv");
+const generateToken = require("./functions/generateToken");
 
 dotenv.config();
 
@@ -33,6 +34,21 @@ app.use(
     })
 );
 
+app.use((req, res, next) => {
+    const allowedDomain = process.env.REACT_LINK;
+    const referer = req.headers.referer;
+    if (!referer || !referer.includes(allowedDomain)) {
+        return res.status(403).json({ success: false, error: "Access denied" });
+    }
+    next();
+});
+
+// Pending Token Security
+
+app.get("/", (req, res) => {
+    return res.json({ message: "Welcome to the Beanstalk Investment App!" });
+});
+
 const overviews = require("./routes/quotes/overviews");
 app.use(overviews);
 
@@ -42,12 +58,12 @@ app.use(validations);
 const registrations = require("./routes/authentications/registration");
 app.use(registrations);
 
+const logins = require("./routes/authentications/login");
+app.use(logins);
+
 // const registration = require("./routes/authentications/registration");
 // app.use(registration);
 
-app.get("/", (req, res) => {
-    res.json({ message: "Welcome to the Beanstalk Investment App!" });
-});
 
 
 
