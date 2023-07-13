@@ -63,3 +63,51 @@ export const SignUpButton = styled.a`
     
     }
     `;
+
+export const Profile = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.25rem;
+  border-radius: 500px;
+  background-color: #88B2CC;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  gap: 5px;
+`;
+
+export const ProfileButton = styled.a`
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  padding-bottom: 5px;
+`
+
+export const DropDown = styled.div`
+  position: absolute;
+  top: 4rem;
+  right: 2rem;
+  width: 9rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease-in-out;
+  display: block;
+  z-index: 999;
+`;
+
+export const DropDownItem = styled.a`
+  display: block;
+  padding: 0.2rem 1rem;
+  text-decoration: none;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-bottom: 1px solid #eee;
+`

@@ -44,7 +44,7 @@ const App = () => {
   }
 
 
-  if (screenWidth >= 400) {
+  if (screenWidth >= 380) {
     return (
       <>
       <TopNav authorized={authorized}></TopNav>

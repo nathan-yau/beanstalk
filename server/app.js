@@ -30,7 +30,7 @@ app.use(
         },
         store: dbStore,
         saveUninitialized: false,
-        resave: true,
+        resave: false,
     })
 );
 
