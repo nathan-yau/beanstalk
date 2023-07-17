@@ -9,7 +9,6 @@ function OverviewFetching(inputValue: string, InstrumentType : string, setData: 
         },
         body: JSON.stringify({ symbol: inputValue, instrumentType: InstrumentType })
     }).then((res) => res.json()).then((data) => {
-        // console.log(data)
         if ('symbol' in data) {
             setData(data);
             setLoading(false);

@@ -18,7 +18,7 @@ const fadeIn = keyframes`
 export const InstrumentChartPlaceholder = styled.div`
     width: min(96%, 490px);
     background-color: #fff;
-    margin: auto;
+    // margin: auto;
     border: 0px solid #ccc;
     transform: translateY(-5px);
     position: relative;

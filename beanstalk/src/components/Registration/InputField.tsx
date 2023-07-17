@@ -22,7 +22,7 @@ const InputField = ({renderData} : {renderData: any}) => {
     setAcceptable: renderData.setAcceptable,
     setErrorMessage: renderData.setErrorMessage,
   }
-  console.log(renderData.acceptable, renderData.validating , renderData.errorMessage)
+
 
   return (
     <>

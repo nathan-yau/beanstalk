@@ -46,12 +46,16 @@ router.post("/api/register", async (req, res) => {
         role: "user"
     })
     
-    newUser.save().then(() => {
+    newUser.save().then(async () => {
         console.log("New user created");
         req.session.authenticated = true;
         req.session.guest = false;
         req.session.username = req.body.username;
         req.session.email = req.body.email;
+        const user = await accountModule.findOne({
+            username: req.session.username,
+        })
+        req.session.userID = user._id;
         return res.json({ success: true, data: { category: "registration", message: "New user created"} })
     }).catch((err) => {
         console.log(err);

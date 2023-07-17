@@ -18,7 +18,6 @@ const Registration = (setRegisterErrorMessage: any) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(input)}).then((res) => res.json()).then((data) => {
-            console.log(data)
             if (data.success) {
                 setTimeout(() => {
                     window.location.href = "/";

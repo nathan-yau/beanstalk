@@ -5,7 +5,7 @@ const Home = ({authorized}: {authorized: boolean}) => {
   
   return (
     <HomeContainer>
-      <Guest></Guest>
+      <Guest authorized={authorized}></Guest>
     </HomeContainer>
   );
 };

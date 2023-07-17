@@ -4,6 +4,7 @@ const accountModule = require("../../models/accountModel");
 const validationSchema = require("../../schema/validationSchema");
 
 router.get("/api/checkSession", async (req, res) => {
+    res.cookie('connectionValid', true, { expires: new Date(Date.now() + 2 * 60 * 60 * 1000) });
     if (req.session.authenticated) {
         return res.json({ success: true, data: { category: "authorized-session", message: "User is authorized"} })
     } else if (req.session.guest) {

@@ -4,7 +4,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const dotenv = require("dotenv");
 const generateToken = require("./functions/generateToken");
-
+const accountModel = require("./models/accountModel");
 dotenv.config();
 
 app.set('views', process.env.VIEW_PATH);
@@ -60,6 +60,9 @@ app.use(registrations);
 
 const logins = require("./routes/authentications/login");
 app.use(logins);
+
+const dashboard = require("./routes/dashboard/dashboard");
+app.use(dashboard);
 
 // const registration = require("./routes/authentications/registration");
 // app.use(registration);

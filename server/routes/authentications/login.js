@@ -14,6 +14,8 @@ router.post("/api/login", async (req, res) => {
         req.session.guest = false;
         req.session.username = user.username;
         req.session.email = user.email;
+        req.session.credit = user.credit;
+        req.session.userID = user._id;
         return res.json({ success: true, data: { category: "login", message: "Login successful"} })
     } else if (!user){
         return res.json({ success: false, data: { category: "login", message: "Username does not exist"} })

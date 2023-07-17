@@ -1,6 +1,6 @@
 import{PageContainer, Ball, Ballcontainer, Title, Typewriter, ErrorMessage} from './PreLoading.styles';
 
-const PreLoading = ({severFailed}: {severFailed: boolean}) => {
+const PreLoading = ({serverFailed}: {serverFailed: boolean}) => {
     return (
         <>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center'}}>
@@ -10,8 +10,8 @@ const PreLoading = ({severFailed}: {severFailed: boolean}) => {
                     </Ballcontainer>
                     <Title>Beanstalk</Title>
                 </PageContainer>
-                {!severFailed && <Typewriter>LOADING...</Typewriter> }
-                {severFailed && 
+                {!serverFailed && <Typewriter>LOADING...</Typewriter> }
+                {serverFailed && 
                 <>
                     <ErrorMessage>Server failed to respond<br /> Please try again later</ErrorMessage>
                 </>}

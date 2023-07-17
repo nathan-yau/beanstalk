@@ -29,18 +29,18 @@ const stockOverview = (result) => {
     
     exchangeTimezoneName = result.meta.exchangeTimezoneName
 
-    overview['currentPrice'] = Number(currentClose[currentClose.length - 1]).toFixed(priceHint)
-    overview['currentHigh'] = Number(Math.max(...high)).toFixed(priceHint)
-    overview['currentLow'] = Number(Math.min(...low)).toFixed(priceHint)
-    overview['priceChange'] = Number(currentClose[currentClose.length - 1] - overview['previousClose']).toFixed(priceHint)
-    overview['priceChangePercent'] = Number((currentClose[currentClose.length - 1] - overview['previousClose']) / overview['previousClose'] * 100).toFixed(2)
-    overview['volume'] = Number(volume).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    overview['currentPrice'] = currentClose[currentClose.length - 1]
+    overview['currentHigh'] = Math.max(...high)
+    overview['currentLow'] = Math.min(...low)
+    overview['priceChange'] = currentClose[currentClose.length - 1] - overview['previousClose']
+    overview['priceChangePercent'] = Number((currentClose[currentClose.length - 1] - overview['previousClose']) / overview['previousClose'] * 100).toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    overview['volume'] = Number(volume).toLocaleString('en', { minimumFractionDigits: 0 })
     overview['lastUpdate'] = convertTimeStamp(timestamp[timestamp.length - 1]).replace(",", "")
     overview['timezone'] = exchangeTimezoneName
 
     moneyformatting = ['currentPrice', 'currentHigh', 'currentLow', 'priceChange']
     for (var i = 0; i < moneyformatting.length; i++) {
-        overview[moneyformatting[i]] = overview[moneyformatting[i]].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        overview[moneyformatting[i]] = parseFloat(overview[moneyformatting[i]]).toLocaleString('en', { minimumFractionDigits: priceHint, maximumFractionDigits: priceHint})
     }
 
     

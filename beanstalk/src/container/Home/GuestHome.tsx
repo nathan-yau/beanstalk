@@ -6,8 +6,8 @@ import OverviewPlaceholder, {OverviewHolder} from '../../components/InstrumentOv
 import ChartPlaceholder from '../../components/InstrumentChartCards/InstrumentChartCards';
 import { GuestCard, GuestCardText,  SignInLink,  Subheading } from './Home.styles'
 import OverviewFetching from '../../utils/OverviewFetching';
-
-function GuestHome() {
+import { motion } from 'framer-motion';
+const GuestHome = ({authorized}: {authorized: boolean}) => {
 
     // Store the fetched data in the state
     const [searchData, setData] = useState(null);
@@ -56,34 +56,36 @@ function GuestHome() {
     };
     
 
-    const mostActiveInsyruments: [boolean, React.Dispatch<React.SetStateAction<boolean>>, null, React.Dispatch<React.SetStateAction<null>>, boolean, React.Dispatch<React.SetStateAction<boolean>>][] = 
+    const mostActiveInstruments: [boolean, React.Dispatch<React.SetStateAction<boolean>>, null, React.Dispatch<React.SetStateAction<null>>, boolean, React.Dispatch<React.SetStateAction<boolean>>][] = 
                                  [[stockLoading, setStockLoading, activeStock, setActiveStock, stockExpanded, setStockExpanded], 
                                   [cryptoLoading, setCryptoLoading, activeCrypto, setActiveCrypto, cryptoExpanded, setCryptoExpanded],
                                   [futuresLoading, setFuturesLoading, activeFutures, setActiveFutures, futuresExpanded, setFuturesExpanded]] 
                                                                
     return (
         <>
-        <HomeSearchBar setData={setData} setSearchLoading={setSearchLoading}></HomeSearchBar>
-        {searchData || searchLoading ? <Subheading>Top Match</Subheading>: null}
-        {searchLoading? <OverviewPlaceholder></OverviewPlaceholder>: null}
-        {searchData && !searchLoading? <a onClick={() => toggleExpansion(searchExpanded, setSearchExpanded)}><OverviewHolder data={searchData} setData={setData} setSearchLoading={setSearchLoading}></OverviewHolder></a>: null}
-        {searchData && !searchLoading? <ChartPlaceholder isExpanded={searchExpanded} chartData={searchData['chartData']}></ChartPlaceholder>: null}
+            <HomeSearchBar setData={setData} setSearchLoading={setSearchLoading}></HomeSearchBar>
+            {searchData || searchLoading ? <Subheading>Top Match</Subheading>: null}
+            {searchLoading? <OverviewPlaceholder></OverviewPlaceholder>: null}
+            {searchData && !searchLoading? <motion.div initial={{ x: 0, y: 100 }} animate={{ x: 0, y: 0 }} exit={{ x: 0, y: 100 }} transition={{ duration: 0.5 }}><a onClick={() => toggleExpansion(searchExpanded, setSearchExpanded)}><OverviewHolder data={searchData} setData={setData} setSearchLoading={setSearchLoading}></OverviewHolder></a></motion.div>: null}
+            {searchData && !searchLoading? <ChartPlaceholder isExpanded={searchExpanded} chartData={searchData['chartData']}></ChartPlaceholder>: null}
 
-        <Subheading>Most Active Instruments</Subheading>
-        {mostActiveInsyruments.map((instrument, _) => {
-            return (
-                <>
-                {instrument[0]? <OverviewPlaceholder></OverviewPlaceholder>: null}
-                {instrument[2] && !instrument[0]? <a onClick={() => toggleExpansion(instrument[4], instrument[5])}><OverviewHolder data={instrument[2]} setData={instrument[3]} setSearchLoading={instrument[1]}></OverviewHolder></a>: null}
-                {instrument[2]? <ChartPlaceholder isExpanded={instrument[4]} chartData={instrument[2]['chartData']} ></ChartPlaceholder>: null }
-                </>
-            )
-        })}
+            <Subheading>Most Active Instruments</Subheading>
+            {mostActiveInstruments.map((instrument, _) => {
+                return (
+                    <>
+                    {instrument[0]? <OverviewPlaceholder></OverviewPlaceholder>: null}
+                    {instrument[2] && !instrument[0]? <motion.div initial={{ x: 0, y: 100 }} animate={{ x: 0, y: 0 }} exit={{ x: 0, y: 100 }} transition={{ duration: 0.5 }}><a onClick={() => toggleExpansion(instrument[4], instrument[5])}><OverviewHolder data={instrument[2]} setData={instrument[3]} setSearchLoading={instrument[1]}></OverviewHolder></a></motion.div>: null}
+                    {instrument[2]? <ChartPlaceholder isExpanded={instrument[4]} chartData={instrument[2]['chartData']} ></ChartPlaceholder>: null }
+                    </>
+                )
+            })}
 
-        <Subheading>Saved Watchlist</Subheading>
-        <GuestCard>
-            <GuestCardText>Already have an account? <SignInLink href="/signin">Sign in</SignInLink></GuestCardText>
-        </GuestCard>
+            <Subheading>Saved Watchlist</Subheading>
+            <GuestCard>
+                {authorized?
+                <GuestCardText><SignInLink href="/dashboard">Click here to create watchlist</SignInLink></GuestCardText>
+                :<GuestCardText>Already have an account? <SignInLink href="/signin">Sign in</SignInLink></GuestCardText>}
+            </GuestCard>
         </>
     );
 }

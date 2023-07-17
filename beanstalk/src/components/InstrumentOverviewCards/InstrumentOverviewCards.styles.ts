@@ -12,7 +12,7 @@ export const InstrumentOverviewPlaceholder = styled.div`
     background-color: #fff;
     padding: 10px;
     border-radius: 0.50em;
-    margin: 10px auto 0 auto;
+    // margin: 10px auto 0 auto;
     border: 1px solid #ccc;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
 }`
@@ -48,7 +48,7 @@ export const InstrumentOverviewContainer = styled.div<{ changes: number }>`
     padding: 10px;
     border-radius: 0.50em;
     margin-top: 10px;
-    margin: 10px auto 0 auto;
+    // margin: 10px auto 0 auto;
     border: 1px solid #ccc;
     position: relative;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);

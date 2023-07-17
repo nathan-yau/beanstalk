@@ -7,7 +7,12 @@ const userSchema = new mongoose.Schema({
     password: String,
     email: String,
     credit: Number,
-    role: String
+    role: String,
+    holding: Array,
+    baseCurrency: String,
+    currentCapital: Number,
+    watchlist: Array,
+    capitalHistory: Object
 });
 
 

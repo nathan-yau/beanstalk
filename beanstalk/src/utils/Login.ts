@@ -3,7 +3,6 @@ const Login = (username: string, password: string, setLoginrErrorMessage: any, s
         username: username,
         password: password
     }
-    console.log("Trying to login")
 
     setIsLoading(true);
     fetch('/api/login', {
@@ -12,7 +11,6 @@ const Login = (username: string, password: string, setLoginrErrorMessage: any, s
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(input)}).then((res) => res.json()).then((data) => {
-            console.log(data)
             if (data.success) {
                 setTimeout(() => {
                     window.location.href = "/";
