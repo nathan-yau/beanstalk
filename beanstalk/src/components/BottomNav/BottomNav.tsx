@@ -1,48 +1,34 @@
-import { useEffect, useState } from 'react';
-import { BottomNavConatiner, BottomNavList, OpenArrow, FunctionList, BottomNavButton, BottomNavIcon, BottomNavItem, BottomNavText } from "./BottomNav.styles"
+import { useState } from 'react';
+import { BottomNavContainer, BottomNavIcon, BottomNavButton } from "./BottomNav.styles"
 
 function BottomNav({authorized}: {authorized: boolean}) {
-    const guestUser = [['Search', 'icons/search-nav.svg', "/search"],['Login','icons/login-nav.svg', "/signin"],['Register','icons/register-nav.svg', "/register"]]
-    const authUser = [['Search','icons/search-nav.svg', "/search"],['Dashboard','icons/dashboard-nav.svg',"/dashboard"],['Simulation','icons/simulation-nav.svg',"/trading"],['Profile','icons/profile-nav.svg',"/profile"]]
-
     const [BottomNavopen, setBottomNavopen] = useState(true);
-
-
+    
     const ToggleNav = () => {
         setBottomNavopen(!BottomNavopen);
     }
 
-    useEffect(() => {
-        setTimeout(() => {
-            setBottomNavopen(false);
-        }, 2000);
-    }, []);
-
     return (
-        <BottomNavConatiner BottomNavopen={BottomNavopen}>
-            <BottomNavList>
-                <FunctionList>
-                    {authorized? authUser.map((element, _) => {
-                        return (
-                        <BottomNavItem key={element[0]}>
-                            <BottomNavButton href={element[2]}>
-                                <BottomNavIcon src={element[1]} width="30px"/>
-                                <BottomNavText>{element[0]}</BottomNavText>
-                            </BottomNavButton>
-                        </BottomNavItem>
-                    )}):guestUser.map((element, _) => {
-                        return (
-                        <BottomNavItem key={element[0]}>
-                            <BottomNavButton href={element[2]}>
-                                <BottomNavIcon src={element[1]} width="30px"/>
-                                <BottomNavText>{element[0]}</BottomNavText>
-                            </BottomNavButton>
-                        </BottomNavItem>
-                    )})}
-                </FunctionList>
-                <OpenArrow src="/icons/open-nav.svg" className="bav-open" width="40px" onClick={ToggleNav} BottomNavopen={BottomNavopen}/>
-            </BottomNavList>
-        </BottomNavConatiner>
+        <BottomNavContainer BottomNavopen={BottomNavopen}>
+            {authorized ?
+            <>
+                <BottomNavButton href="\search"><BottomNavIcon src={'icons/search-nav.svg'} width="25px" status={BottomNavopen}/></BottomNavButton>
+                <BottomNavButton href="\"><BottomNavIcon src={'icons/home-nav.svg'} width="25px" status={BottomNavopen}/></BottomNavButton>
+                <BottomNavIcon src={'icons/menu-nav.svg'} width="25px" onClick={ToggleNav} animation={true} status={BottomNavopen} style={{display: "unset"}}/>
+                <BottomNavButton href="\dashboard"><BottomNavIcon src={'icons/dashboard-nav.svg'} width="25px" status={BottomNavopen}/></BottomNavButton>
+                <BottomNavButton href="\trading"><BottomNavIcon src={'icons/simulation-nav.svg'} width="25px" status={BottomNavopen}/></BottomNavButton>
+            </>
+            :
+            <>
+                <BottomNavButton href="\search"><BottomNavIcon src={'icons/search-nav.svg'} width="25px" status={BottomNavopen}/></BottomNavButton>
+                <BottomNavButton href="\"><BottomNavIcon src={'icons/home-nav.svg'} width="25px" status={BottomNavopen}/></BottomNavButton>
+                <BottomNavIcon src={'icons/menu-nav.svg'} width="25px" onClick={ToggleNav} animation={true} status={BottomNavopen} style={{display: "unset"}}/>
+                <BottomNavButton href="\about"><BottomNavIcon src={'icons/about-nav.svg'} width="25px" status={BottomNavopen}/></BottomNavButton>
+                <BottomNavButton href="\signin"><BottomNavIcon src={'icons/login-nav.svg'} width="25px" status={BottomNavopen}/></BottomNavButton>
+            </>
+}
+        </BottomNavContainer>
+
     )
 }
 

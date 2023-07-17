@@ -11,10 +11,7 @@ const PreLoading = ({serverFailed}: {serverFailed: boolean}) => {
                     <Title>Beanstalk</Title>
                 </PageContainer>
                 {!serverFailed && <Typewriter>LOADING...</Typewriter> }
-                {serverFailed && 
-                <>
-                    <ErrorMessage>Server failed to respond<br /> Please try again later</ErrorMessage>
-                </>}
+                {serverFailed && <ErrorMessage>Server failed to respond<br /> Please try again later</ErrorMessage>}
             </div>
         </>
     );

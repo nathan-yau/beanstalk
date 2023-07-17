@@ -20,7 +20,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [severFailed, setServerFailed] = useState(false);
   const [connectionValid, setConnectionValid] = useState(false);
-
+  const rootElement = document.getElementById("root")
 
   useEffect(() => {
     const cookies = document.cookie.split(';');
@@ -39,6 +39,7 @@ const App = () => {
         if (window.location.pathname === '/') {
           const timeoutId = setTimeout(() => {
             setIsLoading(false);
+            rootElement ? rootElement.style.height = '110vh': null;
           }, 2000);
           return () => {
             clearTimeout(timeoutId);
@@ -52,6 +53,7 @@ const App = () => {
   }, []);
 
   if (isLoading && window.location.pathname === '/') {
+    rootElement ? rootElement.style.height = '100vh': null;
     return <PreLoading serverFailed={severFailed}></PreLoading>
   } else if (isLoading) {
     return <></>

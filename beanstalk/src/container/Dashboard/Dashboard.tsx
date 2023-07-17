@@ -17,14 +17,10 @@ const Dashboard = ({authorized}: {authorized: boolean}) => {
     const [capitalHistory, setCapitalHistory] = useState(null); 
     const [currentCapital, setCurrentCapital] = useState(null);
     const [capitalChange, setCapitalChange] = useState(null);
-    const [topGainer, setTopGainer] = useState(null);
-    const [topLoser, setTopLoser] = useState(null);
     const [holdingData, setholdingData] = useState(null);
     const [lastUpdate, setLastUpdate] = useState(null);
     const [percentageChange, setPercentageChange] = useState(null);
-    const [displayDetails, setDisplayDetails] = useState({});
     const [baseCurrency, setBaseCurrency] = useState('USD');
-    const [priceDelta, setPriceDelta] = useState(null);
 
     const DashboardInfo = async () => {
         try {
@@ -33,8 +29,6 @@ const Dashboard = ({authorized}: {authorized: boolean}) => {
             setCurrentCapital(response.data.data.currentCapital)
             setCapitalChange(response.data.data.capitalChange)
             setholdingData(response.data.data.holding);
-            setTopGainer(response.data.data.topGainer);
-            setTopLoser(response.data.data.topLoser);
             setLastUpdate(response.data.data.lastUpdate)
             setPercentageChange(response.data.data.percentageChange)
             setBaseCurrency(response.data.data.baseCurrency)
@@ -62,8 +56,7 @@ const Dashboard = ({authorized}: {authorized: boolean}) => {
         <motion.div initial={{ x: 0, y: 100 }} animate={{ x: 0, y: 0 }} exit={{ x: 0, y: 100 }} transition={{ duration: 0.5 }}><PerformanceChart chartData={capitalHistory}></PerformanceChart></motion.div>
         : <PerformanceChartSkeleton></PerformanceChartSkeleton>}
 
-
-        
+        {/* Position Table */}
         {holdingData?
         <>
         <Subheading>Position</Subheading>
