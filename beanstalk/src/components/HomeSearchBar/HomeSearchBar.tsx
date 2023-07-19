@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { SearchArea, SearchBar, SearchLabel } from './HomeSearchBar.styles';
-import OverviewFetching from '../../utils/OverviewFetching';
+import { SearchArea, SearchBar, SearchLabel, InputSection } from './HomeSearchBar.styles';
+import SearchFetching from '../../utils/SearchFetching';
+// import { set } from 'mongoose';
 
-function HomeSearchBar( { setData, setSearchLoading }: { setData: any, setSearchLoading: any } ) {
+function HomeSearchBar( { setSearchData, setSearchLoading, searchLoading }: { setSearchData: any, setSearchLoading: any, searchLoading:any } ) {
 
         // Timer id for the timeout
         const [timerId, setTimerId] = useState<NodeJS.Timeout | undefined>(undefined);
@@ -15,14 +16,14 @@ function HomeSearchBar( { setData, setSearchLoading }: { setData: any, setSearch
             // Get the input value
             const inputValue = event.target.value;
             setSearchInput(inputValue);
+            setSearchLoading(true);
     
             // Clear the timer if the user is still typing
             clearTimeout(timerId);
-            setSearchLoading(true);
     
             // Set a new timer to fetch the data after 500ms
             const newTimerId = setTimeout(() => {
-                OverviewFetching(inputValue, '', setData, setSearchLoading);
+                SearchFetching(inputValue, setSearchData, setSearchLoading);
             }, 1000);
     
             // Store the timer id so we can clear it if the user is still typing
@@ -34,7 +35,10 @@ function HomeSearchBar( { setData, setSearchLoading }: { setData: any, setSearch
         <>
             <SearchBar>
                 <SearchLabel>SEARCH FOR A FINANCIAL INSTRUMENT</SearchLabel>
-                <SearchArea type="text" aria-label="Search" value={searchInput} onChange={handleSearchInputChange} placeholder='ENTER SYMBOL TO SEARCH'></SearchArea>
+                <InputSection>
+                    <SearchArea type="text" aria-label="Search" value={searchInput} onChange={handleSearchInputChange} placeholder='ENTER SYMBOL TO SEARCH'></SearchArea>
+                    {searchLoading && <img src="/icons/loading-validation.svg" alt="" width={25} height={25}></img>}
+                </InputSection>
             </SearchBar>
         </>
     );

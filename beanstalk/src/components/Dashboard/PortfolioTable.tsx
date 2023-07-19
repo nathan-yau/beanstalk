@@ -8,18 +8,24 @@ export default function PortfolioTable({holdingData}: {holdingData: any}) {
                 <TableCell width={"10%"}>Shares</TableCell>
                 <TableCell width={"30%"}>Changes</TableCell>
                 <TableCell width={"25%"}>Profit/Loss</TableCell>
+                <TableCell width={"3%"} style={{textAlign: "right", transform: "translateX(50%)"}}></TableCell>
           </TableHeader>
             {holdingData.map((holding: any) => {
                 {console.log(holding.symbol)}
                 return (
-                    <TableColumn>
+                    <TableColumn style={{height: "50px"}}>
                         <TableCell width={"20%"} style={{textAlign: "unset"}}>{holding.symbol}</TableCell>
                         <TableCell width={"10%"}>{holding.shares}</TableCell>
                         <ChangesCell changes={holding.priceDelta}>
                             <TableCell width={"unset"}>{holding.priceDelta}</TableCell>
-                            <TableCell width={"unset"} style={{fontSize: "0.75rem"}}>{holding.percentageDelta}</TableCell>
+                            {/* <TableCell width={"unset"} style={{fontSize: "0.75rem"}}>{holding.percentageDelta}</TableCell> */}
                         </ChangesCell>
                         <TableCell width={"25%"} style={{color: holding.priceDelta > 0? "green": holding.priceDelta === "0.00"? "grey": "red"}}>{holding.totalPLinBase}</TableCell>
+                        <TableCell width={"3%"} style={{textAlign: "right", transform: "translateX(50%)"}}>
+                          <div style={{display: "flex", justifyContent: "right"}}>
+                              <img src="icons/dot-instrumentcard.svg" width={'15px'}></img>
+                          </div>
+                        </TableCell>
                     </TableColumn>
                 )
             })}

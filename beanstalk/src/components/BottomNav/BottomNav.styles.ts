@@ -24,7 +24,7 @@ export const BottomNavContainer = styled.nav<{ BottomNavopen: boolean}>`
 export const BottomNavIcon = styled.img<{ status?: boolean, animation?: boolean }>`
   color: #000;
   text-decoration: none;
-  ${props => props.animation? `rotate: ${props.status ? '0deg' : '405deg'};`: null}
+  ${props => props.animation? `rotate: ${props.status ? '0deg' : '135deg'};`: null}
   ${props => props.status? null: `display: none;`}
   transition: rotate ${transitionDuration};
 `;

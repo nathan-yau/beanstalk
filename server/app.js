@@ -49,6 +49,9 @@ app.get("/", (req, res) => {
     return res.json({ message: "Welcome to the Beanstalk Investment App!" });
 });
 
+const markets = require("./routes/quotes/markets");
+app.use(markets);
+
 const overviews = require("./routes/quotes/overviews");
 app.use(overviews);
 

@@ -60,7 +60,9 @@ const Dashboard = ({authorized}: {authorized: boolean}) => {
         {holdingData?
         <>
         <Subheading>Position</Subheading>
+        <motion.div initial={{ x: 0, y: 100 }} animate={{ x: 0, y: 0 }} exit={{ x: 0, y: 100 }} transition={{ duration: 0.5 }}>
         <PortfolioTable holdingData={holdingData}></PortfolioTable>
+        </motion.div>
         </>:
         null}
 
