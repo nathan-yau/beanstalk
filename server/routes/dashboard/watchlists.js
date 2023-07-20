@@ -17,7 +17,6 @@ router.get("/api/watchlists", async (req, res) => {
         userID: req.session.userID,
     })
     try {
-        console.log(portfolio.watchlists)
         var stockInfo = []
         for (index in portfolio.watchlists) {
             if (portfolio.watchlists[index].slice(0, 2) === "F-") {

@@ -8,11 +8,8 @@ const userSchema = new mongoose.Schema({
     email: String,
     credit: Number,
     role: String,
-    holding: Array,
     baseCurrency: String,
-    currentCapital: Number,
-    watchlist: Array,
-    capitalHistory: Object
+    currentCapital: Number
 });
 
 

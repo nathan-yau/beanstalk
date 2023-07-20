@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const accountModule = require("../../models/accountModel");
+const portfolioModule = require("../../models/portfolioModel");
 const validationSchema = require("../../schema/validationSchema");
 const bcrypt = require("bcryptjs");
 
@@ -42,25 +43,35 @@ router.post("/api/register", async (req, res) => {
         username: req.body.username,
         email: req.body.email,
         password: password,
-        credit: 1000,
-        role: "user"
+        credit: 50000,
+        baseCurrency: "USD",
+        currentCapital: null
     })
-    
-    newUser.save().then(async () => {
-        console.log("New user created");
+
+    const newPortfolio = new portfolioModule({
+        userID: "",
+        watchlists: undefined,
+        holdings: null,
+        capitalHistory: null,
+    })
+        
+    try {
+        await newUser.save();
+        const user = await accountModule.findOne({
+            username: req.body.username,
+        })
+        newPortfolio.userID = user._id;
+        await newPortfolio.save();
+        req.session.userID = user._id;
         req.session.authenticated = true;
         req.session.guest = false;
         req.session.username = req.body.username;
         req.session.email = req.body.email;
-        const user = await accountModule.findOne({
-            username: req.session.username,
-        })
-        req.session.userID = user._id;
         return res.json({ success: true, data: { category: "registration", message: "New user created"} })
-    }).catch((err) => {
+    } catch (err) {
         console.log(err);
         return res.json({ success: false, data: { category: "registration", message: "Error creating new user"} })
-    })
+    }
 
 });
 
