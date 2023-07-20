@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const TableRow = styled.div`
     display: flex;
     flex-direction: column;
+    position: relative;
 `;
 
 export const TableHeader = styled.div`
@@ -65,4 +66,29 @@ export const ToolButton = styled.div`
 `
 
 export const ToolImage = styled.img`
+`
+
+export const ToolDropDown = styled.div`
+  position: absolute;
+  top: 4rem;
+  right: 2rem;
+  width: 9rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease-in-out;
+  display: block;
+  z-index: 2;
+`;
+
+export const ToolDropDownItem = styled.a`
+  display: block;
+  padding: 0.2rem 1rem;
+  text-decoration: none;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-bottom: 1px solid #eee;
 `

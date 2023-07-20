@@ -24,11 +24,11 @@ position: relative;
 
 export const TableHeader = styled.div`
     display: flex;
-    padding: 0.25em 1.00em;
+    padding: 0em 1.00em;
     border-radius: 0.50em;
     height: 50px;
     width: min(100%, 700px);
     justify-content: space-between;
     align-items: center;
-    margin-top: 1.0em;
+    // margin-top: 1.0em;
 `

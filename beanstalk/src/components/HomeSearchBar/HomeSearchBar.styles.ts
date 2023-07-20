@@ -36,3 +36,10 @@ export const SearchLabel = styled.label`
   margin-bottom: 0.50rem;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
 `;
+
+export const FailedSearch = styled.h5`
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-left: 1rem;
+`

@@ -2,11 +2,9 @@ import DailyPerformance, {DailyPerformanceSkeleton} from "../../components/Dashb
 import PerformanceChart, {PerformanceChartSkeleton} from "../../components/Dashboard/PerformanceChart";
 import PortfolioTable from "../../components/Dashboard/PortfolioTable";
 import { useState, useEffect } from 'react';
-import { Subheading } from "./Dashboard.styles";
 import { HomeContainer } from '../Home/Home.styles';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-
 const Dashboard = ({authorized}: {authorized: boolean}) => {
 
     if (!authorized) {
@@ -24,7 +22,7 @@ const Dashboard = ({authorized}: {authorized: boolean}) => {
 
     const DashboardInfo = async () => {
         try {
-          const response = await axios.get('/api/dashboard');
+          const response = await axios.get('/api/holdings');
           if (response.data.success === true) {
             setCurrentCapital(response.data.data.currentCapital)
             setCapitalChange(response.data.data.capitalChange)
@@ -59,7 +57,6 @@ const Dashboard = ({authorized}: {authorized: boolean}) => {
         {/* Position Table */}
         {holdingData?
         <>
-        <Subheading>Position</Subheading>
         <motion.div initial={{ x: 0, y: 100 }} animate={{ x: 0, y: 0 }} exit={{ x: 0, y: 100 }} transition={{ duration: 0.5 }}>
         <PortfolioTable holdingData={holdingData}></PortfolioTable>
         </motion.div>

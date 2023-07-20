@@ -1,15 +1,21 @@
 import { useState } from 'react';
-import { SearchArea, SearchBar, SearchLabel, InputSection } from './HomeSearchBar.styles';
+import { SearchArea, SearchBar, SearchLabel, InputSection, FailedSearch } from './HomeSearchBar.styles';
 import SearchFetching from '../../utils/SearchFetching';
-// import { set } from 'mongoose';
+import InstrumentCards from '../../components/MarketOverview/InstrumentCards';
 
-function HomeSearchBar( { setSearchData, setSearchLoading, searchLoading }: { setSearchData: any, setSearchLoading: any, searchLoading:any } ) {
+function HomeSearchBar({authorized}: {authorized: boolean}) {
+    interface SearchData {
+        success: boolean;
+      }
+
+    const [searchLoading, setSearchLoading] = useState(false);
+    const [searchData, setSearchData] = useState<SearchData | null>(null);
+    const [searchInput, setSearchInput] = useState("");
 
         // Timer id for the timeout
         const [timerId, setTimerId] = useState<NodeJS.Timeout | undefined>(undefined);
     
         // Store the search input in the state
-        const [searchInput, setSearchInput] = useState("");
     
         // Handle the search input change
         const handleSearchInputChange = (event: any) => {
@@ -40,6 +46,9 @@ function HomeSearchBar( { setSearchData, setSearchLoading, searchLoading }: { se
                     {searchLoading && <img src="/icons/loading-validation.svg" alt="" width={25} height={25}></img>}
                 </InputSection>
             </SearchBar>
+            {searchData && <InstrumentCards instrumentInfo={searchData} animationEnabled={true} searchMode={true} authorized={authorized}></InstrumentCards>}
+            {!searchLoading && searchData && !searchData.success && searchInput !== "" && <FailedSearch>No Result found</FailedSearch>}
+
         </>
     );
 }

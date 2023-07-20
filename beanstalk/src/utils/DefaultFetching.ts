@@ -1,5 +1,6 @@
 
-function DefaultFetching(inputValue: string, setInstrumentInfo: Function) {
+function DefaultFetching(inputValue: string, setInstrumentInfo: Function, setLoadingMarketInfo: Function) {
+    setLoadingMarketInfo(true);
     fetch('/api/market', {
         method: 'POST',
         headers: {
@@ -7,7 +8,8 @@ function DefaultFetching(inputValue: string, setInstrumentInfo: Function) {
         },
         body: JSON.stringify({ market: inputValue })
     }).then((res) => res.json()).then((data) => {
-        setInstrumentInfo(data.data.stockInfo);
+        setInstrumentInfo(data);
+        setLoadingMarketInfo(false);
     });
 }
 

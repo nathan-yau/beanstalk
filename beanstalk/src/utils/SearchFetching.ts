@@ -1,7 +1,7 @@
 
 function SearchFetching(searchKey: any, setSearchData:any, setSearchLoading:any) {
     // setSearchLoading(true);
-    fetch('/api/overview', {
+    fetch('/api/search', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

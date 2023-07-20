@@ -6,7 +6,7 @@ const portfolioModule = require("../../models/portfolioModel");
 const accountModule = require("../../models/accountModel");
 const instrumentModule = require("../../models/instrumentModel");
 
-router.get("/api/dashboard", async (req, res) => {
+router.get("/api/holdings", async (req, res) => {
 
     if (!req.session.userID) {
         return res.json({ success: false, data: {category: "dashboard", message: "User not logged in"} })
@@ -32,10 +32,16 @@ router.get("/api/dashboard", async (req, res) => {
         if (key.slice(0, 2) === "F-") {
             result = await fetchData(`${process.env.FUTURES_API_LINK}${key.slice(2)}&second=60`)
             const dataRows = result.data.split("\r\n").map(x => x.split(","));
-            const sessionOpening = dataRows.map(arr => arr[6]);
-            const lastIndex = sessionOpening.lastIndexOf('1');
-            const relevantDataRows = dataRows.slice(lastIndex - 1, -1);
-            const overviewData = relevantDataRows[0];
+            var breakTime = 0
+            lastIndex = dataRows.length - 1
+            while (breakTime < 1800) {
+              lastIndex = lastIndex - 1
+              breakTime = dataRows[lastIndex][5]-dataRows[lastIndex-1][5]
+            }
+        
+            var relevantDataRows = dataRows.slice(lastIndex - 1, -1);
+            var overviewData = relevantDataRows[0]
+            var relevantDataRows = relevantDataRows.slice(1, -1);
             previousClose = overviewData[3]
             currentClose = [];
             for (const row of relevantDataRows) {
@@ -51,8 +57,8 @@ router.get("/api/dashboard", async (req, res) => {
             lastUpdate = convertTimeStamp(timestamp[timestamp.length-1]).replace(",", "")
             var instrumentData = {symbol: key.slice(2), lastUpdate: lastUpdate, currentPrice: currentPrice, previousClose: previousClose, currency: instrument.currency}
             portfolio.holdings[key]['position'] === "Long" ? position = 1 : position = -1
-            instrumentData['totalPLinLocal'] = ((instrumentData['currentPrice'] - (portfolio.holdings[key]['cost']*position))*portfolio.holdings[key]['shares']*instrument.multiplier)
-            instrumentData['dailyPLinLocal'] = ((instrumentData['currentPrice'] - (previousClose*position))*portfolio.holdings[key]['shares']*instrument.multiplier)
+            instrumentData['totalPLinLocal'] = ((instrumentData['currentPrice'] - portfolio.holdings[key]['cost'])*position*portfolio.holdings[key]['shares']*instrument.multiplier)
+            instrumentData['dailyPLinLocal'] = ((instrumentData['currentPrice'] - previousClose)*position*portfolio.holdings[key]['shares']*instrument.multiplier)
             instrumentData['NotionalValue'] = 0
         } else {
             result = await fetchData(`${process.env.STOCK_API_LINK}${key}`)
@@ -80,16 +86,21 @@ router.get("/api/dashboard", async (req, res) => {
         if (!overallLastUpdate || overallLastUpdate < lastUpdate) {
             overallLastUpdate = lastUpdate
         }
-        instrumentData['priceDelta'] = (instrumentData['currentPrice'] - (portfolio.holdings[key]['cost']))*position
+        instrumentData['dailyPriceDelta'] = (instrumentData['currentPrice'] - previousClose)*position
+        console.log(instrumentData['currentPrice'], previousClose, position)
+        instrumentData['priceDelta'] = (instrumentData['currentPrice'] - portfolio.holdings[key]['cost'])*position
         instrumentData['percentageDelta'] = (instrumentData['priceDelta'] / (portfolio.holdings[key]['cost']))*100
         instrumentData['percentageDelta'] = instrumentData['percentageDelta'].toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
         instrumentData['percentageDelta'] = instrumentData['percentageDelta'] === "-0.00" || instrumentData['percentageDelta'] === "0.00" ? "0.00" : instrumentData['percentageDelta'][0] === "-" ? `(${instrumentData['percentageDelta'].replace("-","")}%)` : `${instrumentData['percentageDelta']}%`
         instrumentData['priceDelta'] = instrumentData['priceDelta'].toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
         instrumentData['priceDelta'] = instrumentData['priceDelta'] === "-0.00" || instrumentData['priceDelta'] === "0.00" ? "0.00" : instrumentData['priceDelta'][0] === "-" ? `(${instrumentData['priceDelta'].replace("-","")})` : `+${instrumentData['priceDelta']}`
-        console.log(instrumentData['priceDelta'])
+        instrumentData['dailyPriceDelta'] = instrumentData['dailyPriceDelta'].toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+        instrumentData['dailyPriceDelta'] = instrumentData['dailyPriceDelta'] === "-0.00" || instrumentData['dailyPriceDelta'] === "0.00" ? "0.00" : instrumentData['dailyPriceDelta'][0] === "-" ? `(${instrumentData['dailyPriceDelta'].replace("-","")})` : `+${instrumentData['dailyPriceDelta']}`
         instrumentData['totalPLinBase'] = (instrumentData['totalPLinLocal'] * rate).toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
         instrumentData['totalPLinBase'] = instrumentData['totalPLinBase'] === "-0.00" || instrumentData['totalPLinBase'] === "0.00" ? "0.00" : instrumentData['totalPLinBase'][0] === "-" ? `(${instrumentData['totalPLinBase'].replace("-","")})` : `+${instrumentData['totalPLinBase']}`
+        
         instrumentData['dailyPLinBase'] = (instrumentData['dailyPLinLocal'] * rate).toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+        instrumentData['dailyPLinBase'] = instrumentData['dailyPLinBase'] === "-0.00" || instrumentData['dailyPLinBase'] === "0.00" ? "0.00" : instrumentData['dailyPLinBase'][0] === "-" ? `(${instrumentData['dailyPLinBase'].replace("-","")})` : `+${instrumentData['dailyPLinBase']}`
         instrumentData['dailyPLinBase' ] > topgain[1] ? topgain = [instrumentData['symbol'], instrumentData['dailyPLinBase']] : null
         instrumentData['dailyPLinBase' ] < toploss[1] ? toploss = [instrumentData['symbol'], instrumentData['dailyPLinBase']] : null
         currentCapital += (instrumentData['dailyPLinLocal'] * rate)

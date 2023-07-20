@@ -19,6 +19,7 @@ export const BottomNavContainer = styled.nav<{ BottomNavopen: boolean}>`
   justify-content: space-between;
   align-items: center;
   opacity: ${props => (props.BottomNavopen ? '0.95' : '0.7')};
+  z-index: 100;
 `;
 
 export const BottomNavIcon = styled.img<{ status?: boolean, animation?: boolean }>`
