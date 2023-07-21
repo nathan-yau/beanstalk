@@ -1,4 +1,4 @@
-const Registration = (setRegisterErrorMessage: any) => {
+const Registration = (setRegisterErrorMessage: any, setRegisterLoading: any) => {
     const usernameInput = document.querySelector('input[name="username"]') as HTMLInputElement;
     const emailInput = document.querySelector('input[name="email"]') as HTMLInputElement;
     const passwordInput  = document.querySelector('input[name="password"]') as HTMLInputElement;
@@ -10,7 +10,7 @@ const Registration = (setRegisterErrorMessage: any) => {
         password: passwordInput.value,
         confirmPassword: confirmPasswordInput.value
     }
-    console.log("Trying to register")
+    setRegisterLoading(true);
 
     fetch('/api/register', {
         method: 'POST',
@@ -24,6 +24,7 @@ const Registration = (setRegisterErrorMessage: any) => {
                 }, 2000);
             } else {
                 setRegisterErrorMessage(data.data.message);
+                setRegisterLoading(false);
             }
         }).catch((err) => console.log(err))
 }

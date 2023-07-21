@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const SearchArea = styled.input`
 display: block;
 width: 100%;
-padding: 0.5rem 0.75rem;
+padding: 0.5rem 1.5rem;
 border: none;
 border-radius: 0.50em;
 &:focus {

@@ -8,15 +8,18 @@ const stockOverview = require('../../functions/stockOverview');
 const futuresOverview = require('../../functions/futuresOverview');
 
 router.get("/api/watchlists", async (req, res) => {
-    console.log("GET /api/watchlists")
+    console.log("requested api/watchlists")
     if (!req.session.userID) {
-        return res.json({ success: false, data: {category: "dashboard", message: "User not logged in"} })
+        return res.json({ success: false, data: {category: "watchlists", message: "User not logged in"} })
     }
 
     const portfolio = await portfolioModule.findOne({
         userID: req.session.userID,
     })
     try {
+        if (portfolio.watchlists === undefined) {
+            return res.json({ success: true, data: {empty: true, category: "watchlists", message: "No holdings found"} })
+        }
         var stockInfo = []
         for (index in portfolio.watchlists) {
             if (portfolio.watchlists[index].slice(0, 2) === "F-") {
@@ -44,13 +47,15 @@ router.get("/api/watchlists", async (req, res) => {
             }
             return res.json({ success: true, 
                 data: { 
-                    category: "overview", 
+                    empty: false,
+                    category: "watchlists", 
                     message: "Data retrieved successfully", 
                     stockInfo: stockInfo
                 }
             })
     } catch (error) {
         console.log(error)
+        return res.json({ success: false, data: {category: "watchlists", message: "Error retrieving data"} })
     }
 });
 

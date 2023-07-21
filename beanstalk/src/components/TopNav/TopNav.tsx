@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Title, Nav, SignUp, SignUpButton, Profile, DropDown, DropDownItem } from './TopNav.styles';
 
-function TopNav({authorized}: {authorized: boolean}) {
+function TopNav({authorized, userInfo}: {authorized: boolean, userInfo: any}) {
     function ScrollingEvents() {
         const [scrolled, setScrolled] = useState(false);
     
@@ -33,13 +33,19 @@ function TopNav({authorized}: {authorized: boolean}) {
             <Title href="/">Beanstalk</Title>
             {authorized ? 
             <>
-            <Profile>
-                <img src="/icons/avatar-nav.svg" width="25px" onClick={ToggleDropDown}></img>
-            </Profile>
+            <div style={{display: "flex", gap: "25px", height: "30px"}}>
+                <div style={{display: "flex", gap: "5px", alignItems: "center", justifyContent: "center", textAlign: "center"}}>
+                    <img src="/icons/auto-nav.svg"  width={"25px"} height={'25px'} style={{transform: "rotate(90deg)"}}></img>
+                    <span style={{fontWeight: "600"}}>Auto</span>
+                </div>
+                <Profile>
+                    <img src="/icons/avatar-nav.svg" width="25px" onClick={ToggleDropDown}></img>
+                </Profile>
+            </div>
             {dropDownOpen ? 
             <DropDown>
-                <DropDownItem href="/profile">Nathan Yau</DropDownItem>
-                <DropDownItem href="/dashboard">Credit: 1,000</DropDownItem>
+                <DropDownItem href="/profile">{userInfo.username}</DropDownItem>
+                <DropDownItem href="/dashboard">Credit: {userInfo.credit}</DropDownItem>
                 <DropDownItem href="/trading">Profile</DropDownItem>
                 <DropDownItem href="/logout">Logout</DropDownItem>
             </DropDown>: ""}

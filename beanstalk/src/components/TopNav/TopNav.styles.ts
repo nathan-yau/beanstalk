@@ -25,7 +25,7 @@ export const Nav = styled.nav<{ pageScrolled: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.0rem 1.5rem;
+  padding: 0.8rem 0.9rem;
   border-radius: 0em 0em 0.75em 0.75em;
   background-color: ${props => props.pageScrolled? 'rgba(255,255,255,1)': 'rgba(0,0,0,0)'};
   ${props => props.pageScrolled? 'box-shadow: 0 0 10px rgba(0, 0, 0, 0.3)': ''};

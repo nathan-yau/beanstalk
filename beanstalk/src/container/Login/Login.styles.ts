@@ -43,3 +43,8 @@ export const LoginButton = styled.button<{enabled : boolean}>`
     cursor: pointer;
     transition: all 0.5s ease 0s;
 `
+
+export const LoginError = styled.span`
+    color: #ff0000;
+    text-align: center;
+`;

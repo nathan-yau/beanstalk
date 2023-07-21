@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import HomeSearchBar from '../../components/HomeSearchBar/HomeSearchBar';
 import MarketSelector from '../../components/MarketOverview/MarketSelector';
 import InstrumentCards from '../../components/MarketOverview/InstrumentCards';
-import { GuestCard, GuestCardText,  SignInLink,  Subheading } from './Home.styles'
+import { Subheading } from './Home.styles'
 import DefaultFetching from '../../utils/DefaultFetching';
 import { motion } from 'framer-motion';
 import Watchlist from '../../components/Watchlist/Watchlist';

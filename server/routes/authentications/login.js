@@ -5,13 +5,13 @@ const validationSchema = require("../../schema/validationSchema");
 const bcrypt = require("bcryptjs");
 
 router.post("/api/login", async (req, res) => {
+    console.log("requested api/login")
     const user = await accountModule.findOne({
         username: req.body.username,
     })
 
     if (user && bcrypt.compareSync(req.body.password, user.password)) {
-        req.session.authenticated = true;
-        req.session.guest = false;
+        req.session.premission = "authenticated"
         req.session.username = user.username;
         req.session.email = user.email;
         req.session.credit = user.credit;

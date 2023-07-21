@@ -7,6 +7,7 @@ const futuresOverview = require('../../functions/futuresOverview');
 const instrumentModule = require("../../models/instrumentModel");
 
 router.post("/api/market", async (req, res) => {
+    console.log("requested api/market")
     const market = await marketModule.findOne({
         market: req.body.market,
     })

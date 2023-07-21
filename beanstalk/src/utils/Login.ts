@@ -14,7 +14,6 @@ const Login = (username: string, password: string, setLoginrErrorMessage: any, s
             if (data.success) {
                 setTimeout(() => {
                     window.location.href = "/";
-                    setIsLoading(false);
                 }, 2000);
             } else {
                 setLoginrErrorMessage(data.data.message);

@@ -6,7 +6,7 @@ const validationSchema = require("../../schema/validationSchema");
 const bcrypt = require("bcryptjs");
 
 router.post("/api/register", async (req, res) => {
-
+    console.log("requested api/register")
     // Check if any missing input
     if (!req.body.username || !req.body.email || !req.body.password || !req.body.confirmPassword) {
         console.log("Missing input")
@@ -51,8 +51,6 @@ router.post("/api/register", async (req, res) => {
     const newPortfolio = new portfolioModule({
         userID: "",
         watchlists: undefined,
-        holdings: null,
-        capitalHistory: null,
     })
         
     try {
@@ -63,8 +61,7 @@ router.post("/api/register", async (req, res) => {
         newPortfolio.userID = user._id;
         await newPortfolio.save();
         req.session.userID = user._id;
-        req.session.authenticated = true;
-        req.session.guest = false;
+        req.session.premission = "authenticated";
         req.session.username = req.body.username;
         req.session.email = req.body.email;
         return res.json({ success: true, data: { category: "registration", message: "New user created"} })

@@ -8,7 +8,8 @@ export default function Watchlist({authorized}:{authorized: boolean}) {
 
     interface watchlistInfo {
         data: {
-            stockInfo: []
+            stockInfo: [],
+            empty: boolean
         };
       }
 
@@ -19,25 +20,28 @@ export default function Watchlist({authorized}:{authorized: boolean}) {
         WatchlistFetching(setWatchlistInfo, setLoadingWatchlistInfo)
     }, [])
 
+    console.log(watchlistInfo)
+
     return (
         <>
         {authorized && watchlistInfo && watchlistInfo.data.stockInfo.length !== 0 ? 
             <motion.div initial={{ x: 0, y: -30, opacity: 0.2 }} animate={{ x: 0, y: 0, opacity: 1.0 }} exit={{ x: 0, y: -30, opacity: 0.2 }} transition={{ duration: 0.5 }}>
             <InstrumentCards instrumentInfo={watchlistInfo} animationEnabled={false} loadingMarketInfo={loadingWatchlistInfo} authorized={authorized}></InstrumentCards>
             </motion.div>
-        : authorized?
+        : authorized && watchlistInfo && watchlistInfo.data.empty === true ?
             <CardDiv>
                 <CardText>
                     <CardLink href="/dashboard">Click here to create watchlist</CardLink>
                 </CardText>
             </CardDiv>
-        : 
+        : !authorized ?
             <CardDiv>
                 <CardText>
                     Already have an account?
                     <CardLink href="/signin">Sign in</CardLink>
                 </CardText>
             </CardDiv>
+        : "It is just loading"
     }
         </>
     )

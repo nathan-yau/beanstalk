@@ -34,3 +34,18 @@ export const DailyPerformanceSkeleton = () => {
         </Container>
     );
 }
+
+
+export function NoHoldingSkeleton({baseCurrency}: {baseCurrency: string}) {
+    return (
+        <Container>
+            <ContainerRow>
+                <Heading>Daily Performance ({baseCurrency})</Heading>
+            </ContainerRow>
+            <ContainerRow>
+                <DailyBalance style={{fontFamily: 'cooper'}}>$ -</DailyBalance>
+            </ContainerRow>
+            <LastUpdate>-</LastUpdate>
+        </Container>
+    )
+}

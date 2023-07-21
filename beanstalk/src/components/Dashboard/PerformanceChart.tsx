@@ -104,3 +104,14 @@ export const PerformanceChartSkeleton = () => {
         </Container>
     );
 }
+
+export const NoHoldingChart = () => {
+    return (
+        <Container style={{height: "50vh", display: "flex", flexDirection: "column", gap: "20px", justifyContent: "center", alignItems: "center"}}>
+            <img src="/icons/noHolding-dashboard.svg" alt="" width={100} height={100}></img>
+            <h5>Embark on your investment journey</h5>
+            {/* <h5>Track and grow your portfolio!</h5> */}
+            <a>Create Portfolio here</a>
+        </Container>
+    );
+}

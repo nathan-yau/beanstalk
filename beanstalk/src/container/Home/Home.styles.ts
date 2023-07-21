@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 
 export const HomeContainer = styled.div`
-    margin: 1rem 1.5rem 1rem 1.5rem;
+    margin: 0rem 0.9rem;
 `
 
 export const Subheading = styled.h5`

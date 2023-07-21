@@ -6,7 +6,7 @@ const router = express.Router();
 const instrumentModule = require("../../models/instrumentModel");
 
 router.post("/api/search", async (req, res) => {
-
+    console.log("requested api/search")
     const instrument = await instrumentModule.findOne({
         symbol: req.body.symbol.slice(0, req.body.symbol.length-2),
     })

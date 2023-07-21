@@ -1,7 +1,8 @@
-import { PageConatiner, LoginContainer, LoginHeading, LoginButton } from "./Login.styles";
+import { PageConatiner, LoginContainer, LoginHeading, LoginButton, LoginError } from "./Login.styles";
 import InputField from "../../components/Login/InputField";
 import { useState, useEffect } from "react";
 import handleInternalLogin from "../../utils/Login"
+import {PulseOuterDiv, PulseInnerDiv, PulseText} from '../../components/SharedComponents/Animation';
 
 const Login = ({authorized}: {authorized: boolean}) => {
     const [acceptableInput, setAcceptableInput] = useState(false);
@@ -23,9 +24,14 @@ const Login = ({authorized}: {authorized: boolean}) => {
         }
     }, [username, password]);
 
-    // Pending Loading Screen
+
     if (isLoading) {
-        return ( <div>Loading...</div>)
+        return (
+            <PulseOuterDiv>
+                <PulseInnerDiv></PulseInnerDiv>
+                <PulseText>Logging in</PulseText>
+            </PulseOuterDiv>
+        )
     }
 
     return (
@@ -35,7 +41,7 @@ const Login = ({authorized}: {authorized: boolean}) => {
                 <InputField inputlabel={'username'} setValue={setUsername}></InputField>
                 <InputField inputlabel={'password'} setValue={setPassword}></InputField>
                 <LoginButton enabled={acceptableInput} disabled={!acceptableInput} onClick={() => handleInternalLogin(username, password, setLoginrErrorMessage, setIsLoading)}>Sign In</LoginButton>
-                <p>{LoginErrorMessage}</p>
+                <LoginError>{LoginErrorMessage}</LoginError>
             </LoginContainer>
         </PageConatiner>
     );

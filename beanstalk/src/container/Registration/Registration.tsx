@@ -6,7 +6,7 @@ import { PageConatiner, RegistrationContainer, RegistrationHeading, Registration
 import {GuestCardText, SignInLink} from "../Home/Home.styles";
 import { useState } from 'react';
 import internalRegistration from "../../utils/Registration"
-
+import { PulseInnerDiv, PulseOuterDiv, PulseText } from "../../components/SharedComponents/Animation";
 
 
 const Registration = ({authorized}: {authorized: boolean}) => {
@@ -19,6 +19,15 @@ const Registration = ({authorized}: {authorized: boolean}) => {
     const [registerLoading, setRegisterLoading] = useState(false);
     const [registerErrorMessage, setRegisterErrorMessage] = useState("");
     
+    if (registerLoading) {
+        return (
+            <PulseOuterDiv>
+                <PulseInnerDiv></PulseInnerDiv>
+                <PulseText>Registering</PulseText>
+            </PulseOuterDiv>
+        )
+    }
+
     const handleInternalRegister = () => {
         setInternalRegister(true);
     }
@@ -38,7 +47,7 @@ const Registration = ({authorized}: {authorized: boolean}) => {
                     <PasswordField acceptablePassword={acceptablePassword} setAcceptablePassword={setAcceptablePassword} setAcceptableConfirmPassword={setAcceptableConfirmPassword}></PasswordField>
                     <ConfirmPasswordField acceptableConfirmPassword={acceptableConfirmPassword} setAcceptableConfirmPassword={setAcceptableConfirmPassword}></ConfirmPasswordField>
                     <SignUpError>{registerErrorMessage}</SignUpError>
-                    <RegistrationButton enabled={acceptableInput} disabled={!acceptableInput} onClick={() => internalRegistration(setRegisterErrorMessage)}>Register</RegistrationButton>
+                    <RegistrationButton enabled={acceptableInput} disabled={!acceptableInput} onClick={() => internalRegistration(setRegisterErrorMessage, setRegisterLoading)}>Register</RegistrationButton>
                 </div>
                 <div style={{display: internalRegister? 'none': 'unset'}}>
                     <RegistrationButton enabled={acceptableEmail} disabled={!acceptableEmail} onClick={handleInternalRegister}>Continue</RegistrationButton>
