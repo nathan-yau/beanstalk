@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import WatchlistFetching from "../../utils/WatchlistFetching";
 import {motion} from 'framer-motion'
 import InstrumentCards from "../MarketOverview/InstrumentCards";
-import { CardDiv, CardLink, CardText } from "./Watchlist.styles";
+import { CardDiv, CardLink, CardText, LoadingIcon, IconContainer } from "./Watchlist.styles";
 
 export default function Watchlist({authorized}:{authorized: boolean}) {
 
@@ -20,13 +20,14 @@ export default function Watchlist({authorized}:{authorized: boolean}) {
         WatchlistFetching(setWatchlistInfo, setLoadingWatchlistInfo)
     }, [])
 
-    console.log(watchlistInfo)
-
     return (
         <>
+        {/* <Pot>
+            <img src="https://i.stack.imgur.com/qgNyF.png?s=328&g=1" width={"100px"}/>
+        </Pot>   */}
         {authorized && watchlistInfo && watchlistInfo.data.stockInfo.length !== 0 ? 
             <motion.div initial={{ x: 0, y: -30, opacity: 0.2 }} animate={{ x: 0, y: 0, opacity: 1.0 }} exit={{ x: 0, y: -30, opacity: 0.2 }} transition={{ duration: 0.5 }}>
-            <InstrumentCards instrumentInfo={watchlistInfo} animationEnabled={false} loadingMarketInfo={loadingWatchlistInfo} authorized={authorized}></InstrumentCards>
+            <InstrumentCards instrumentInfo={watchlistInfo} animationEnabled={false} mode="watchlist" loadingMarketInfo={loadingWatchlistInfo} authorized={authorized}></InstrumentCards>
             </motion.div>
         : authorized && watchlistInfo && watchlistInfo.data.empty === true ?
             <CardDiv>
@@ -41,7 +42,12 @@ export default function Watchlist({authorized}:{authorized: boolean}) {
                     <CardLink href="/signin">Sign in</CardLink>
                 </CardText>
             </CardDiv>
-        : "It is just loading"
+        : 
+        <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+            <IconContainer>
+                <LoadingIcon src="icons/loading-validation.svg"/>
+            </IconContainer>
+        </div>
     }
         </>
     )

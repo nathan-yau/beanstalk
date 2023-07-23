@@ -2,8 +2,9 @@ import { useState } from "react"
 import {TableCell, TableColumn, TableRow, ChangesContainer, ChangesCell, ChangesText, ToolButton, ToolImage, ToolDropDown, ToolDropDownItem} from "./InstrumentCards.styles"
 import InstrumentLineChart from "./InstrumentLineChart"
 import { motion } from 'framer-motion';
+import ConfirmationBox from '../../components/MessageBox/ConfirmationBox';
 
-export default function InstrumentCards({instrumentInfo, animationEnabled, searchMode, loadingMarketInfo, authorized}: {instrumentInfo: any, animationEnabled: boolean, searchMode?: boolean, loadingMarketInfo?: boolean, authorized: boolean}) {
+export default function InstrumentCards({instrumentInfo, animationEnabled, mode, loadingMarketInfo, authorized}: {instrumentInfo: any, animationEnabled: boolean, mode: string, loadingMarketInfo?: boolean, authorized: boolean}) {
 
     if (instrumentInfo.success === false) {
         return ("")
@@ -12,20 +13,37 @@ export default function InstrumentCards({instrumentInfo, animationEnabled, searc
     }
 
     const [showValue, setShowValue] = useState(true)
+    const [showConfirmationBox, setShowConfirmationBox] = useState(false)
+    const [confirmationType, setConfirmationType] = useState("")
     const [toolOpenStates, setToolOpenStates] = useState(
         instrumentInfo.map(() => false)
       );
     
 
+    const ToggleWatchlist = () => {
+        setShowConfirmationBox(!showConfirmationBox)
+        setConfirmationType("watchlist")
+    }
+
+    const TogglePortfolio = () => {
+        setShowConfirmationBox(!showConfirmationBox)
+        setConfirmationType("portfolio")
+    }
+    
     const toggleToolOpen = (index: number) => {
         const newToolOpenStates = [...toolOpenStates];
         newToolOpenStates[index] = !newToolOpenStates[index];
+        for (let i = 0; i < newToolOpenStates.length; i++) {
+            if (i !== index) {
+                newToolOpenStates[i] = false;
+            }
+        }
         setToolOpenStates(newToolOpenStates);
     };
 
     return (
         <>
-            {!searchMode?
+            {mode !== "search"?
             <TableRow>
                 <TableColumn>
                     <TableCell width={"20%"} style={{textAlign: "unset"}}>Symbol</TableCell>
@@ -55,12 +73,12 @@ export default function InstrumentCards({instrumentInfo, animationEnabled, searc
                     data: item.chartData
                 }
                 let filledColor: string[] =
-                    item.movement === "+" ? ['#1d8038', '#2B8E3F'] :
-                    item.movement === "-" ? ['#d32f2f', '#d32f2f'] :
-                    ['#b0aeae', '#b0aeae'];
-
+                item.movement === "+" ? ['#1d8038', '#2B8E3F'] :
+                item.movement === "-" ? ['#d32f2f', '#d32f2f'] :
+                ['#b0aeae', '#b0aeae'];
                 return(
                     <>
+                    {toolOpenStates[index] && showConfirmationBox? <ConfirmationBox instrumentName={item.symbol} setShowConfirmationBox={setShowConfirmationBox} mode={confirmationType}></ConfirmationBox> : ""}
                     <TableRow style={{zIndex: 2}}>
                         <TableColumn style={{borderRadius: "5px"}}>
                             <TableCell width={"20%"} style={{textAlign: "unset"}}>{item.symbol}</TableCell>
@@ -96,14 +114,14 @@ export default function InstrumentCards({instrumentInfo, animationEnabled, searc
                     </TableRow>
                     {toolOpenStates[index] && authorized ? 
                         <motion.div initial={{ x: 15, y: -30, opacity: 0 }} animate={{ x: 0, y: 0, opacity: 1.0 }} exit={{ x: 5, y: -30, opacity: 0 }} transition={{ duration: 0.5 }}>
-                            <TableColumn style={{borderRadius: "5px", margin: "-0.5em 0.5em 0.2em 0.5em", zIndex: 1, display: "flex",flexDirection: "row", justifyContent: "space-between", padding: "0em 2.5em 0em 1em"}}>
-                                <div style={{display: "flex", justifyContent: "space-between", gap: "5px", alignContent: "center", marginTop: "2px", textAlign: "center"}}>
-                                    <img src="icons/add-circle-svgrepo-com.svg" width={15}></img>
-                                    <span style={{ fontSize: "0.80rem", fontWeight: "600"}}>Watchlist</span>
+                            <TableColumn style={{borderRadius: "5px", margin: "-0.5em 0.5em 0.2em 0.5em", zIndex: 1, display: "flex",flexDirection: "row", justifyContent: "start", gap: "50px", padding: "0em 2.5em 0em 1em"}}>
+                                <div style={{display: "flex", justifyContent: "space-between", gap: "5px", alignContent: "center", marginTop: "2px", textAlign: "center", padding: "0.2em"}} onClick={ToggleWatchlist}>
+                                <img src={mode!=="watchlist"? "icons/add-logo.svg":"icons/remove-logo.svg"} width={15}></img>
+                                    <span style={{ fontSize: "0.80rem", fontWeight: "800", color: "#1c274c"}}>Watchlist</span>
                                 </div>
-                                <div style={{display: "flex", justifyContent: "space-between", gap: "5px", alignContent: "center", marginTop: "2px", textAlign: "center"}}>
-                                    <img src="icons/add-circle-svgrepo-com.svg" width={15}></img>
-                                    <span style={{ fontSize: "0.80rem", fontWeight: "600"}}>Portfolio</span>
+                                <div style={{display: "flex", justifyContent: "space-between", gap: "5px", alignContent: "center", marginTop: "2px", textAlign: "center"}} onClick={TogglePortfolio}>
+                                    <img src="icons/add-logo.svg" width={15}></img>
+                                    <span style={{ fontSize: "0.80rem", fontWeight: "800", color: "#1c274c"}}>Portfolio</span>
                                 </div>
                             </TableColumn>
                         </motion.div>

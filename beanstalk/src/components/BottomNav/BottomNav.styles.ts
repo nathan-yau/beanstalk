@@ -18,7 +18,7 @@ export const BottomNavContainer = styled.nav<{ BottomNavopen: boolean}>`
   transition-property: background-color, box-shadow, width;
   justify-content: space-between;
   align-items: center;
-  opacity: ${props => (props.BottomNavopen ? '0.95' : '0.7')};
+  opacity: ${props => (props.BottomNavopen ? '0.95' : '0.4')};
   z-index: 100;
 `;
 

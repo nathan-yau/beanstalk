@@ -21,7 +21,7 @@ function BottomNav({authorized}: {authorized: boolean}) {
             :
             <>
                 <BottomNavButton href="\search"><BottomNavIcon src={'icons/search-nav.svg'} width="25px" status={BottomNavopen}/></BottomNavButton>
-                <BottomNavButton href="\"><BottomNavIcon src={'icons/home-nav.svg'} width="25px" status={BottomNavopen}/></BottomNavButton>
+                <BottomNavButton href="\"><BottomNavIcon src={'icons/home-nav.svg'} width={`25px`} status={BottomNavopen}/></BottomNavButton>
                 <BottomNavIcon src={'icons/menu-nav.svg'} width="25px" onClick={ToggleNav} animation={true} status={BottomNavopen} style={{display: "unset"}}/>
                 <BottomNavButton href="\about"><BottomNavIcon src={'icons/about-nav.svg'} width="25px" status={BottomNavopen}/></BottomNavButton>
                 <BottomNavButton href="\signin"><BottomNavIcon src={'icons/login-nav.svg'} width="25px" status={BottomNavopen}/></BottomNavButton>

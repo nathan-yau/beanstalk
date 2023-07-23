@@ -27,14 +27,17 @@ const GuestHome = ({authorized}: {authorized: boolean}) => {
 
             <Subheading>Watchlist</Subheading>    
             <Watchlist authorized={authorized}></Watchlist>
-            
             <Subheading>Popular Markets</Subheading>
             <MarketSelector selectedMarket={selectedMarket} setSelectedMarket={setSelectedMarket} setAnimationEnabled={setAnimationEnabled}></MarketSelector>
             {instrumentInfo? 
             <motion.div initial={{ x: 0, y: -30, opacity: 0.2 }} animate={{ x: 0, y: 0, opacity: 1.0 }} exit={{ x: 0, y: -30, opacity: 0.2 }} transition={{ duration: 0.5 }}>
-            <InstrumentCards instrumentInfo={instrumentInfo} animationEnabled={animationEnabled} loadingMarketInfo={loadingMarketInfo} authorized={authorized}></InstrumentCards>
+            <InstrumentCards instrumentInfo={instrumentInfo} animationEnabled={animationEnabled} mode="market" loadingMarketInfo={loadingMarketInfo} authorized={authorized}></InstrumentCards>
             </motion.div>
-            : null}
+            : 
+            <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+                <img src="/icons/loading-validation.svg" width="50px" height="50px" style={{marginRight: "10px"}}></img>
+            </div>
+            }
 
         </>
     );

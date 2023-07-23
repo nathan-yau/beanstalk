@@ -1,4 +1,16 @@
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
+
+const runner = keyframes`
+    0% {
+      left: 0;
+    }
+    50% {
+      left: calc(100% - 100px);
+    }
+    100% {
+      left: 0;    
+    }
+`
 
 export const CardDiv = styled.div`
     width: min(100%, 500px);
@@ -39,4 +51,27 @@ export const CardLink = styled.a`
     &:hover::after {
         transform: scaleX(1);
     }
+`
+
+export const LoadingText = styled.span`
+    font-size: 1rem;
+    font-weight: 600;
+    margin-left: 1rem;
+    display: inline-block;
+    transform-origin: left;
+`
+
+export const IconContainer  = styled.div`
+
+`
+
+export const LoadingIcon = styled.img`
+    width: 50px;
+`
+
+export const Pot = styled.div`
+    position: absolute;
+    -webkit-animation: linear infinite;
+    -webkit-animation-name: ${runner};
+    -webkit-animation-duration: 5s;
 `

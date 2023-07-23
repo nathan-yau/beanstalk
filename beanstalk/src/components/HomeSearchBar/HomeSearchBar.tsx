@@ -46,7 +46,7 @@ function HomeSearchBar({authorized}: {authorized: boolean}) {
                     {searchLoading && <img src="/icons/loading-validation.svg" alt="" width={25} height={25}></img>}
                 </InputSection>
             </SearchBar>
-            {searchData && <InstrumentCards instrumentInfo={searchData} animationEnabled={false} searchMode={true} authorized={authorized}></InstrumentCards>}
+            {searchData && <InstrumentCards instrumentInfo={searchData} animationEnabled={false} mode="search" authorized={authorized}></InstrumentCards>}
             {!searchLoading && searchData && !searchData.success && searchInput !== "" && <FailedSearch>No Result found</FailedSearch>}
 
         </>
