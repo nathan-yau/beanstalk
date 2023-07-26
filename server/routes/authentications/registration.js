@@ -49,8 +49,7 @@ router.post("/api/register", async (req, res) => {
     })
 
     const newPortfolio = new portfolioModule({
-        userID: "",
-        watchlists: undefined,
+        userID: ""
     })
         
     try {

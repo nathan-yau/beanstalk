@@ -1,11 +1,11 @@
 import { useState } from "react"
-import {TableCell, TableColumn, TableRow, ChangesContainer, ChangesCell, ChangesText, ToolButton, ToolImage, ToolDropDown, ToolDropDownItem} from "./InstrumentCards.styles"
+import {TableCell, TableColumn, TableRow, ChangesContainer, ChangesCell, ChangesText, ToolButton, ToolImage} from "./InstrumentCards.styles"
 import InstrumentLineChart from "./InstrumentLineChart"
 import { motion } from 'framer-motion';
 import ConfirmationBox from '../../components/MessageBox/ConfirmationBox';
 
 export default function InstrumentCards({instrumentInfo, animationEnabled, mode, loadingMarketInfo, authorized}: {instrumentInfo: any, animationEnabled: boolean, mode: string, loadingMarketInfo?: boolean, authorized: boolean}) {
-
+    console.log(instrumentInfo)
     if (instrumentInfo.success === false) {
         return ("")
     } else {
@@ -78,7 +78,7 @@ export default function InstrumentCards({instrumentInfo, animationEnabled, mode,
                 ['#b0aeae', '#b0aeae'];
                 return(
                     <>
-                    {toolOpenStates[index] && showConfirmationBox? <ConfirmationBox instrumentName={item.symbol} setShowConfirmationBox={setShowConfirmationBox} mode={confirmationType}></ConfirmationBox> : ""}
+                    {toolOpenStates[index] && showConfirmationBox? <ConfirmationBox instrumentName={item.symbol} holding={item.portfolio} watchlist={item.watchlist} setShowConfirmationBox={setShowConfirmationBox} mode={confirmationType}></ConfirmationBox> : ""}
                     <TableRow style={{zIndex: 2}}>
                         <TableColumn style={{borderRadius: "5px"}}>
                             <TableCell width={"20%"} style={{textAlign: "unset"}}>{item.symbol}</TableCell>
@@ -116,11 +116,11 @@ export default function InstrumentCards({instrumentInfo, animationEnabled, mode,
                         <motion.div initial={{ x: 15, y: -30, opacity: 0 }} animate={{ x: 0, y: 0, opacity: 1.0 }} exit={{ x: 5, y: -30, opacity: 0 }} transition={{ duration: 0.5 }}>
                             <TableColumn style={{borderRadius: "5px", margin: "-0.5em 0.5em 0.2em 0.5em", zIndex: 1, display: "flex",flexDirection: "row", justifyContent: "start", gap: "50px", padding: "0em 2.5em 0em 1em"}}>
                                 <div style={{display: "flex", justifyContent: "space-between", gap: "5px", alignContent: "center", marginTop: "2px", textAlign: "center", padding: "0.2em"}} onClick={ToggleWatchlist}>
-                                <img src={mode!=="watchlist"? "icons/add-logo.svg":"icons/remove-logo.svg"} width={15}></img>
+                                <img src={mode==="watchlist" || item.watchlist ? "icons/remove-logo.svg": "icons/add-logo.svg"} width={15}></img>
                                     <span style={{ fontSize: "0.80rem", fontWeight: "800", color: "#1c274c"}}>Watchlist</span>
                                 </div>
                                 <div style={{display: "flex", justifyContent: "space-between", gap: "5px", alignContent: "center", marginTop: "2px", textAlign: "center"}} onClick={TogglePortfolio}>
-                                    <img src="icons/add-logo.svg" width={15}></img>
+                                    <img src={item.portfolio? "icons/remove-logo.svg":"icons/add-logo.svg"} width={15}></img>
                                     <span style={{ fontSize: "0.80rem", fontWeight: "800", color: "#1c274c"}}>Portfolio</span>
                                 </div>
                             </TableColumn>

@@ -5,12 +5,17 @@ const fetchData = require('../../functions/fetchData');
 const stockOverview = require('../../functions/stockOverview');
 const futuresOverview = require('../../functions/futuresOverview');
 const instrumentModule = require("../../models/instrumentModel");
+const portfolioModule = require("../../models/portfolioModel");
 
 router.post("/api/market", async (req, res) => {
     console.log("requested api/market")
     const market = await marketModule.findOne({
         market: req.body.market,
     })
+    const portfolio = await portfolioModule.findOne({
+        userID: req.session.userID,
+    })
+
     var stockInfo = []
     if (req.body.market === "Futures") {
         for (index in market.default_instruments) {
@@ -21,6 +26,14 @@ router.post("/api/market", async (req, res) => {
             })
             try {
                 overview = futuresOverview(result, market.default_instruments[index], instrument.currency)
+                if (portfolio !== null) {
+                    if (portfolio.holdings !== undefined) {
+                        overview["portfolio"] = market.default_instruments[index] in portfolio.holdings
+                    }
+                    if (portfolio.watchlists !== undefined) {
+                        overview["watchlist"] = market.default_instruments[index] in portfolio.watchlists
+                    }
+                }
                 stockInfo.push(overview)
             } catch (error) {
                 console.log(error)
@@ -31,6 +44,14 @@ router.post("/api/market", async (req, res) => {
             result = await fetchData(`${process.env.STOCK_API_LINK}${market.default_instruments[index]}`)
             try {
                 overview = stockOverview(result.data.chart.result[0])
+                if (portfolio !== null) {
+                    if (portfolio.holdings !== undefined) {
+                        overview["portfolio"] = market.default_instruments[index] in portfolio.holdings
+                    }
+                    if (portfolio.watchlists !== undefined) {
+                        overview["watchlist"] = market.default_instruments[index] in portfolio.watchlists
+                    }
+                }
                 stockInfo.push(overview)
             } catch (error) {
                 console.log(error)

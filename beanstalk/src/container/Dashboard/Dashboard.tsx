@@ -46,7 +46,6 @@ const Dashboard = ({authorized}: {authorized: boolean}) => {
         DashboardInfo();
       }, [])
       
-      console.log(emptyHolding)
   return (
     
     <HomeContainer>

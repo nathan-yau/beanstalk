@@ -20,7 +20,12 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [severFailed, setServerFailed] = useState(false);
   const [userData, setUserData] = useState(null);
-
+  
+  const autoUpdate = async () => {
+    setInterval(async () => {
+      console.log("auto update")
+    }, 10000)
+  }
   useEffect(() => {
     const cookies = document.cookie.split(';');
     var connectionValid = false;
@@ -28,9 +33,11 @@ const App = () => {
       const [name, value] = cookie.split('=').map(c => c.trim());
       if (name === 'connectionValid' && value === 'true') {
         connectionValid = true
+        autoUpdate()
       }
     }
     );
+
 
     const fetchData = async () => {
       const result = await checkSessionStatus(setAuthorized, setUserData);
@@ -59,10 +66,9 @@ const App = () => {
     return <></>
   }
 
-
-
   return (
     <>
+    
     <TopNav authorized={authorized} userInfo={userData}></TopNav>
     <BrowserRouter>
         <Routes>

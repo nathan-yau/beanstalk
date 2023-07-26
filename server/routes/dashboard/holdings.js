@@ -39,8 +39,8 @@ router.get("/api/holdings", async (req, res) => {
                 var breakTime = 0
                 lastIndex = dataRows.length - 1
                 while (breakTime < 1800) {
-                lastIndex = lastIndex - 1
-                breakTime = dataRows[lastIndex][5]-dataRows[lastIndex-1][5]
+                    lastIndex = lastIndex - 1
+                    breakTime = dataRows[lastIndex][5]-dataRows[lastIndex-1][5]
                 }
             
                 var relevantDataRows = dataRows.slice(lastIndex - 1, -1);
@@ -150,5 +150,9 @@ router.get("/api/holdings", async (req, res) => {
         return res.json({ success: false, data: {category: "holdings", message: "Error retrieving data"} })
     }
 });
+
+router.post("/api/holdings", async (req, res) => {
+    console.log("requested api/holdings")
+})
 
 module.exports = router;

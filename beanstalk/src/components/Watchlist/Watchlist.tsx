@@ -15,9 +15,10 @@ export default function Watchlist({authorized}:{authorized: boolean}) {
 
     const [watchlistInfo, setWatchlistInfo] = useState<watchlistInfo | null>(null);
     const [loadingWatchlistInfo, setLoadingWatchlistInfo] = useState(false);
+    const [emptyWatchlist, setEmptyWatchlist] = useState(false);
 
     useEffect(() => {
-        WatchlistFetching(setWatchlistInfo, setLoadingWatchlistInfo)
+        WatchlistFetching(setWatchlistInfo, setLoadingWatchlistInfo, setEmptyWatchlist)
     }, [])
 
     return (
@@ -25,11 +26,11 @@ export default function Watchlist({authorized}:{authorized: boolean}) {
         {/* <Pot>
             <img src="https://i.stack.imgur.com/qgNyF.png?s=328&g=1" width={"100px"}/>
         </Pot>   */}
-        {authorized && watchlistInfo && watchlistInfo.data.stockInfo.length !== 0 ? 
+        {authorized && watchlistInfo && !emptyWatchlist ? 
             <motion.div initial={{ x: 0, y: -30, opacity: 0.2 }} animate={{ x: 0, y: 0, opacity: 1.0 }} exit={{ x: 0, y: -30, opacity: 0.2 }} transition={{ duration: 0.5 }}>
             <InstrumentCards instrumentInfo={watchlistInfo} animationEnabled={false} mode="watchlist" loadingMarketInfo={loadingWatchlistInfo} authorized={authorized}></InstrumentCards>
             </motion.div>
-        : authorized && watchlistInfo && watchlistInfo.data.empty === true ?
+        : authorized && watchlistInfo && emptyWatchlist === true ?
             <CardDiv>
                 <CardText>
                     <CardLink href="/dashboard">Click here to create watchlist</CardLink>
