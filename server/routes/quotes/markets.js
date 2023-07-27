@@ -31,7 +31,7 @@ router.post("/api/market", async (req, res) => {
                         overview["portfolio"] = market.default_instruments[index] in portfolio.holdings
                     }
                     if (portfolio.watchlists !== undefined) {
-                        overview["watchlist"] = market.default_instruments[index] in portfolio.watchlists
+                        overview["watchlist"] = portfolio.watchlists.includes(market.default_instruments[index])
                     }
                 }
                 stockInfo.push(overview)
@@ -49,7 +49,7 @@ router.post("/api/market", async (req, res) => {
                         overview["portfolio"] = market.default_instruments[index] in portfolio.holdings
                     }
                     if (portfolio.watchlists !== undefined) {
-                        overview["watchlist"] = market.default_instruments[index] in portfolio.watchlists
+                        overview["watchlist"] = portfolio.watchlists.includes(market.default_instruments[index])
                     }
                 }
                 stockInfo.push(overview)

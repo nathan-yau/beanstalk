@@ -20,12 +20,14 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [severFailed, setServerFailed] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [nextUpdate, setNextUpdate] = useState(0);
+  var updateRound = 0
   
   const autoUpdate = async () => {
-    setInterval(async () => {
-      console.log("auto update")
-    }, 10000)
+    updateRound = updateRound +  1
+    // setNextUpdate(updateRound)
   }
+
   useEffect(() => {
     const cookies = document.cookie.split(';');
     var connectionValid = false;
@@ -33,7 +35,9 @@ const App = () => {
       const [name, value] = cookie.split('=').map(c => c.trim());
       if (name === 'connectionValid' && value === 'true') {
         connectionValid = true
-        autoUpdate()
+        setInterval(async () => {
+          autoUpdate()
+        }, 60000)
       }
     }
     );
@@ -72,7 +76,7 @@ const App = () => {
     <TopNav authorized={authorized} userInfo={userData}></TopNav>
     <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home authorized={authorized}/>} />
+          <Route path="/" element={<Home authorized={authorized} nextUpdate={nextUpdate}/>} />
           <Route path="/register" element={<Registration authorized={authorized} />} />
           <Route path="/signin" element={<Login authorized={authorized} />} />
           <Route path="/dashboard" element={<Dashboard authorized={authorized} />} />

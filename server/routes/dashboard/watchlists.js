@@ -85,9 +85,6 @@ router.post("/api/watchlists", async (req, res) => {
     if (portfolio === null) {
         return res.json({ success: false, data: {category: "portfolio", message: "Error retrieving data"} })
     }
-    if (portfolio.watchlists === undefined || portfolio.watchlists.length === 0) {
-        return res.json({ success: true, data: {empty: true, category: "portfolio", message: "No watchlists found"} })
-    }
     if (action === "add") {
         if (portfolio.watchlists.includes(symbol)) {
             return res.json({ success: false, data: {category: "portfolio", message: "Symbol already in watchlist"} })
@@ -101,6 +98,9 @@ router.post("/api/watchlists", async (req, res) => {
             console.log(error)
             return res.json({ success: false, data: {category: "portfolio", message: "Error adding symbol"} })
         }
+    }
+    if (portfolio.watchlists === undefined || portfolio.watchlists.length === 0) {
+        return res.json({ success: true, data: {empty: true, category: "portfolio", message: "No watchlists found"} })
     }
     if (action === "remove") {
         if (!portfolio.watchlists.includes(symbol)) {

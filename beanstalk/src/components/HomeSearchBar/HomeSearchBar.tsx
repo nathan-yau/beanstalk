@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SearchArea, SearchBar, SearchLabel, InputSection, FailedSearch } from './HomeSearchBar.styles';
 import SearchFetching from '../../utils/SearchFetching';
 import InstrumentCards from '../../components/MarketOverview/InstrumentCards';
 
-function HomeSearchBar({authorized}: {authorized: boolean}) {
+function HomeSearchBar({authorized, nextUpdate}: {authorized: boolean, nextUpdate: number}) {
     interface SearchData {
         success: boolean;
       }
@@ -36,6 +36,11 @@ function HomeSearchBar({authorized}: {authorized: boolean}) {
             setTimerId(newTimerId);
         };
 
+    useEffect(() => {
+        if (searchInput !== "") {
+            SearchFetching(searchInput, setSearchData, setSearchLoading);
+        }
+    }, [nextUpdate])
 
     return (
         <>

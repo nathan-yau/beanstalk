@@ -28,7 +28,7 @@ router.post("/api/search", async (req, res) => {
                     overview["portfolio"] = `F-${req.body.symbol}` in portfolio.holdings
                 }
                 if (portfolio.watchlists !== undefined) {
-                    overview["watchlist"] = `F-${req.body.symbol}` in portfolio.watchlists
+                    overview["watchlist"] = portfolio.watchlists.includes(`F-${req.body.symbol}`)
                 }
             }
             res.json({ success: true, data: { category: "quoteSearch", message: "Data retrieved successfully", stockInfo: [overview]}});
@@ -46,9 +46,15 @@ router.post("/api/search", async (req, res) => {
             if (portfolio !== null) {
                 if (portfolio.holdings !== undefined) {
                     overview["portfolio"] = `${req.body.symbol}` in portfolio.holdings
+                    console.log(portfolio.holdings)
+                    console.log(req.body.symbol)
+                    console.log(req.body.symbol in portfolio.holdings)
                 }
                 if (portfolio.watchlists !== undefined) {
-                    overview["watchlist"] = `${req.body.symbol}` in portfolio.watchlists
+                    overview["watchlist"] = portfolio.watchlists.includes(req.body.symbol)
+                    console.log(portfolio.watchlists)
+                    console.log(req.body.symbol)
+                    console.log(req.body.symbol in portfolio.watchlists)
                 }
             }
             res.json({ success: true, data: { category: "quoteSearch", message: "Data retrieved successfully", stockInfo: [overview]}});

@@ -8,7 +8,7 @@ import { Subheading } from './Home.styles'
 import DefaultFetching from '../../utils/DefaultFetching';
 import { motion } from 'framer-motion';
 import Watchlist from '../../components/Watchlist/Watchlist';
-const GuestHome = ({authorized}: {authorized: boolean}) => {
+const GuestHome = ({authorized, nextUpdate}: {authorized: boolean, nextUpdate: number}) => {
 
     const [selectedMarket, setSelectedMarket] = useState('US Stock');
     const [instrumentInfo, setInstrumentInfo] = useState(null);
@@ -17,16 +17,16 @@ const GuestHome = ({authorized}: {authorized: boolean}) => {
 
     useEffect(() => {
         DefaultFetching(selectedMarket, setInstrumentInfo, setLoadingMarketInfo)
-    }, [selectedMarket])   
+    }, [selectedMarket, nextUpdate])   
     
 
                                                                
     return (
         <>
-            <HomeSearchBar authorized={authorized}></HomeSearchBar>
+            <HomeSearchBar authorized={authorized} nextUpdate={nextUpdate}></HomeSearchBar>
 
             <Subheading>Watchlist</Subheading>    
-            <Watchlist authorized={authorized}></Watchlist>
+            <Watchlist authorized={authorized} nextUpdate={nextUpdate}></Watchlist>
             <Subheading>Popular Markets</Subheading>
             <MarketSelector selectedMarket={selectedMarket} setSelectedMarket={setSelectedMarket} setAnimationEnabled={setAnimationEnabled}></MarketSelector>
             {instrumentInfo? 

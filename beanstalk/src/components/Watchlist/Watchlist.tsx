@@ -4,7 +4,7 @@ import {motion} from 'framer-motion'
 import InstrumentCards from "../MarketOverview/InstrumentCards";
 import { CardDiv, CardLink, CardText, LoadingIcon, IconContainer } from "./Watchlist.styles";
 
-export default function Watchlist({authorized}:{authorized: boolean}) {
+export default function Watchlist({authorized, nextUpdate}:{authorized: boolean, nextUpdate: number}) {
 
     interface watchlistInfo {
         data: {
@@ -19,7 +19,7 @@ export default function Watchlist({authorized}:{authorized: boolean}) {
 
     useEffect(() => {
         WatchlistFetching(setWatchlistInfo, setLoadingWatchlistInfo, setEmptyWatchlist)
-    }, [])
+    }, [nextUpdate])
 
     return (
         <>
