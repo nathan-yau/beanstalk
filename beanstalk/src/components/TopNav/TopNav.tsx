@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Title, Nav, SignUp, SignUpButton, Profile, DropDown, DropDownItem } from './TopNav.styles';
 
-function TopNav({authorized, userInfo}: {authorized: boolean, userInfo: any}) {
+function TopNav({authorized, userInfo, setAutoUpdate, autoUpdate}: {authorized: boolean, userInfo: any, setAutoUpdate: any, autoUpdate: boolean}) {
     function ScrollingEvents() {
         const [scrolled, setScrolled] = useState(false);
     
@@ -20,10 +20,9 @@ function TopNav({authorized, userInfo}: {authorized: boolean, userInfo: any}) {
         return scrolled;
     }
 
-    const [autoUpdate, setAutoUpdate] = useState(false);
-
     const ToggleAutoUpadte = () => {
         setAutoUpdate(!autoUpdate);
+        console.log(autoUpdate)
     }
 
 

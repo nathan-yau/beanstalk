@@ -12,29 +12,29 @@ function HomeSearchBar({authorized, nextUpdate}: {authorized: boolean, nextUpdat
     const [searchData, setSearchData] = useState<SearchData | null>(null);
     const [searchInput, setSearchInput] = useState("");
 
-        // Timer id for the timeout
-        const [timerId, setTimerId] = useState<NodeJS.Timeout | undefined>(undefined);
-    
-        // Store the search input in the state
-    
-        // Handle the search input change
-        const handleSearchInputChange = (event: any) => {
-            // Get the input value
-            const inputValue = event.target.value;
-            setSearchInput(inputValue);
-            setSearchLoading(true);
-    
-            // Clear the timer if the user is still typing
-            clearTimeout(timerId);
-    
-            // Set a new timer to fetch the data after 500ms
-            const newTimerId = setTimeout(() => {
-                SearchFetching(inputValue, setSearchData, setSearchLoading);
-            }, 1000);
-    
-            // Store the timer id so we can clear it if the user is still typing
-            setTimerId(newTimerId);
-        };
+    // Timer id for the timeout
+    const [timerId, setTimerId] = useState<NodeJS.Timeout | undefined>(undefined);
+
+    // Store the search input in the state
+
+    // Handle the search input change
+    const handleSearchInputChange = (event: any) => {
+        // Get the input value
+        const inputValue = event.target.value;
+        setSearchInput(inputValue);
+        setSearchLoading(true);
+
+        // Clear the timer if the user is still typing
+        clearTimeout(timerId);
+
+        // Set a new timer to fetch the data after 500ms
+        const newTimerId = setTimeout(() => {
+            SearchFetching(inputValue, setSearchData, setSearchLoading);
+        }, 1000);
+
+        // Store the timer id so we can clear it if the user is still typing
+        setTimerId(newTimerId);
+    };
 
     useEffect(() => {
         if (searchInput !== "") {

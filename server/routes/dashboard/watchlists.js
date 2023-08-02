@@ -71,7 +71,6 @@ router.get("/api/watchlists", async (req, res) => {
 router.post("/api/watchlists", async (req, res) => {
     console.log("requested api/portfolio")
     console.log(req.body)
-    const mode = req.body.mode
     const action = req.body.action
     var symbol = req.body.instrumentName
     const portfolio = await portfolioModule.findOne({
@@ -116,7 +115,6 @@ router.post("/api/watchlists", async (req, res) => {
             return res.json({ success: false, data: {category: "portfolio", message: "Error removing symbol"} })
         }
     }
-    console.log(portfolio[mode])
     return res.json({ success: false, data: {category: "portfolio", message: "Unknown error"} })
 })
 
