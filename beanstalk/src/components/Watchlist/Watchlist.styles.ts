@@ -13,7 +13,7 @@ const runner = keyframes`
 `
 
 export const CardDiv = styled.div`
-    width: min(100%, 500px);
+    width: min(100%, 1000px);
     height: 50px;
     background-color: #fff;
     padding: 10px;

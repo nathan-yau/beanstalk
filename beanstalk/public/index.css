@@ -11,4 +11,6 @@ body {
 
 #root { 
     height: 100vh;
+    width: min(800px, 100vw);
+    margin: auto;
 }

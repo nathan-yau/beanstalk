@@ -52,10 +52,10 @@ const Registration = ({authorized}: {authorized: boolean}) => {
                 <div style={{display: internalRegister? 'none': 'unset'}}>
                     <RegistrationButton enabled={acceptableEmail} disabled={!acceptableEmail} onClick={handleInternalRegister}>Continue</RegistrationButton>
                     <GuestCardText style={{margin: 0, fontSize: '0.80rem',textAlign: 'center'}}>Already have an account? <SignInLink href="/signin" style={{marginLeft: `5px`}}>Sign in</SignInLink></GuestCardText>
-                    <Seperator>
+                    {/* <Seperator>
                         <SeperatorText></SeperatorText>
-                    </Seperator>
-                    <RegistrationButton enabled={acceptableInput} style={{backgroundColor: "#DB4437"}}>Continue with Google</RegistrationButton>
+                    </Seperator> */}
+                    {/* <RegistrationButton enabled={acceptableInput} style={{backgroundColor: "#DB4437"}}>Continue with Google</RegistrationButton> */}
                 </div>
             </RegistrationContainer>
         </PageConatiner>
