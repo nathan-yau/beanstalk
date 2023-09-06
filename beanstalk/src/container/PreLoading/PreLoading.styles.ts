@@ -38,8 +38,8 @@ const bounce = keyframes`
 `
 
 const typing  = keyframes`
-    from { width: 0 }
-    to { width: 40% }  
+    from { width: 0ch }
+    to { width: 13ch }  
 `
 
 const blinkCaret = keyframes`
@@ -98,8 +98,9 @@ export const Typewriter = styled.h1`
     transform: translateY(100px);
     margin-left: 15px;
     margin-top: 150px;
+    width: 13ch;
     animation: 
-    ${typing} 1.75s steps(30, end),
+    ${typing} 1.75s 1,
     ${blinkCaret} .75s step-end infinite;
 `
 export const ErrorMessage = styled.h1`
